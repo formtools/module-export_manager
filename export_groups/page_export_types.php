@@ -2,7 +2,7 @@
 
 if (isset($request["create_export_type"]))
 {
-  header("location: add.php");
+  header("location: edit.php?page=add_export_type");
   exit;
 }
 
