@@ -75,9 +75,9 @@ function exp_update_settings($info)
  */
 function exp_get_export_filename_placeholder_hash()
 {
-   $offset = ft_get_current_timezone_offset();
-  $date_str = ft_get_date($offset, ft_get_current_datetime(), "Y|y|F|M|m|n|d|D|j|g|h|H|i|s|U|a");
-  list($Y, $y, $F, $M, $m, $n, $d, $D, $j, $g, $h, $H, $i, $s, $U, $a) = explode("|", $date_str);
+  $offset = ft_get_current_timezone_offset();
+  $date_str = ft_get_date($offset, ft_get_current_datetime(), "Y|y|F|M|m|n|d|D|j|g|h|H|i|s|U|a|G|i");
+  list($Y, $y, $F, $M, $m, $n, $d, $D, $j, $g, $h, $H, $i, $s, $U, $a, $G, $i) = explode("|", $date_str);
 
   $placeholders = array(
     "datetime" => "$Y-$m-$d.$H-$i-$s",
@@ -87,6 +87,9 @@ function exp_get_export_filename_placeholder_hash()
     "y" => $y,
     "F" => $F,
     "M" => $M,
+    "m" => $m,
+    "G" => $G,
+    "i" => $i,
     "n" => $n,
     "d" => $d,
     "D" => $D,
