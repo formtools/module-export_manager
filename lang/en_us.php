@@ -30,8 +30,6 @@ $L["word_csv"] = "CSV";
 $L["word_xml"] = "XML";
 $L["word_settings"] = "Settings";
 $L["word_visibility"] = "Visibility";
-$L["word_height_c"] = "Height";
-$L["word_width_c"] = "Width";
 
 $L["phrase_html_printer_friendly"] = "HTML / Printer-friendly";
 $L["phrase_add_export_type"] = "Add Export Type";
@@ -61,9 +59,6 @@ $L["phrase_table_format"] = "Table format";
 $L["phrase_one_by_one"] = "One by one";
 $L["phrase_one_submission_per_page"] = "One submission per page";
 $L["phrase_export_type_id"] = "Export Type ID";
-$L["phrase_generate_files_folder_path"] = "Generated files folder path";
-$L["phrase_generate_files_folder_url"] = "Generated files folder URL";
-$L["phrase_cache_multi_select_fields"] = "Cache multi-select field values for duration of session";
 
 $L["notify_no_export_groups"] = "There are currently no export groups. Click the button below to add a new one.";
 $L["notify_no_export_types"] = "There are currently no export types defined in the database. Click the button below to add a new one.";
@@ -78,17 +73,12 @@ $L["notify_export_types_reordered"] = "The export types have been re-ordered.";
 $L["notify_no_export_types"] = "This group doesn't have any export types. Click the button below to add one.";
 $L["notify_settings_updated"] = "The settings have been updated.";
 $L["notify_export_incomplete_fields"] = "Sorry, the export script didn't receive all the required fields and cannot proceed.";
-$L["notify_export_type_visibility"] = "This export type will only be displayed if the export group is visible as well!";
-$L["notify_filename_explanation"] = "This is only applicable for generated files, or export groups that define headers that prompt a file download. See the <a href=\"http://modules.formtools.org/export_manager/documentation.php?page=filename_placeholders\">user documentation</a> for a list of available placeholders.";
-$L["notify_file_generated"] = "The file has been generated. <a href='{\$url}' target='_blank'>Click here</a> to view the file.";
-$L["notify_file_not_generated"] = "We were unable to create a file at this location: <b>{\$url}</b> (folder: <b>{\$folder}</b>). The most likely cause for this is that the folder specified in the <a href='{\$export_manager_settings_link}'>Export Manager &raquo; Settings</a> page is incorrect or doesn't have write permissions.";
 
 $L["confirm_delete_export_group"] = "Are you sure you want to delete this export group?";
 $L["confirm_delete_export_type"] = "Are you sure you want to delete this export type?";
 
 $L["text_export_group_summary"] = "Add the new export group below. After this step you will be able to edit all aspects of the new export group.";
 $L["text_export_manager_intro"] = "Welcome to the Export Manager module! This module lets you control the various ways in which your form submissions can be viewed and downloaded.";
-$L["text_help_link"] = "For help on how to use this module, please see the <a href=\"http://modules.formtools.org/export_manager/documentation.php\">module help documentation</a>.";
 
 $L["validation_select_rows_to_export"] = "Please select those rows you would like to export.";
 $L["validation_no_export_group_name"] = "Please enter the export group name.";

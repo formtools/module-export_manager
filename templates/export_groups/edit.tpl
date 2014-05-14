@@ -7,23 +7,23 @@
   </tr>
   </table>
 
-  {include file='tabset_open.tpl'}
+	{include file='tabset_open.tpl'}
 
-    {if $page == "main"}
-      {include file='../../modules/export_manager/templates/export_groups/tab_main.tpl'}
-    {elseif $page == "export_types"}
-      {include file='../../modules/export_manager/templates/export_groups/tab_export_types.tpl'}
-    {elseif $page == "forms"}
-      {include file='../../modules/export_manager/templates/export_groups/tab_forms.tpl'}
-    {elseif $page == "add_export_type"}
-      {include file='../../modules/export_manager/templates/export_groups/tab_add_export_type.tpl'}
-    {elseif $page == "edit_export_type"}
-      {include file='../../modules/export_manager/templates/export_groups/tab_edit_export_type.tpl'}
-    {else}
-      {include file='../../modules/export_manager/templates/export_groups/tab_main.tpl'}
-    {/if}
+		{if $page == "main"}
+			{include file='../../modules/export_manager/templates/export_groups/tab_main.tpl'}
+		{elseif $page == "export_types"}
+			{include file='../../modules/export_manager/templates/export_groups/tab_export_types.tpl'}
+		{elseif $page == "forms"}
+			{include file='../../modules/export_manager/templates/export_groups/tab_forms.tpl'}
+		{elseif $page == "add_export_type"}
+			{include file='../../modules/export_manager/templates/export_groups/tab_add_export_type.tpl'}
+		{elseif $page == "edit_export_type"}
+			{include file='../../modules/export_manager/templates/export_groups/tab_edit_export_type.tpl'}
+		{else}
+			{include file='../../modules/export_manager/templates/export_groups/tab_main.tpl'}
+		{/if}
 
-  {include file='tabset_close.tpl'}
+	{include file='tabset_close.tpl'}
 
 
 {include file='modules_footer.tpl'}

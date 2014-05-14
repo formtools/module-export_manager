@@ -1,6 +1,6 @@
 {*
-  This template generates the HTML for the various export options at the foot of the submission
-  listing page, for both the administrator and clients.
+  This template is used to render the HTML for the various export options at the foot of the submission
+  listing page, for both the administrator and client.
 
   1. popup
   2. new window (form: target="_blank")

@@ -9,7 +9,6 @@ $page_vars["export_group_info"] = $export_group;
 $page_vars["page"] = "main";
 $page_vars["tabs"] = $tabs;
 $page_vars["icons"] = exp_get_export_icons();
-$page_vars["head_string"] = "<script type=\"text/javascript\" src=\"$g_root_url/global/codemirror/js/codemirror.js\"></script>";
 $page_vars["head_title"] = "{$L["module_name"]} - {$L["phrase_edit_export_group"]}";
 $page_vars["head_js"] = "
   var page_ns = {};

@@ -6,7 +6,7 @@
  * File:     function.export_groups_dropdown
  * Type:     function
  * Name:     form_dropdown
- * Purpose:  generates a dropdown of all export types
+ * Purpose:  generates a dropdown of all export type
  * -------------------------------------------------------------
  */
 function smarty_function_export_groups_dropdown($params, &$smarty)

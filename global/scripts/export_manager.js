@@ -62,10 +62,11 @@ em.export_submissions = function(export_group_id, action)
         "&export_group_" + export_group_id + "_results=" + result_type + "&target_message_id=ft_message";
 
 		 	new Ajax.Request(url, {
-			  method: "post",
+			  method: 'post',
 			  onSuccess: ft.response_handler,
 			  onFailure: function() { alert("Couldn't load page: " + page_url); }
 			});
 			break;
   }
 }
+

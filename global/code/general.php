@@ -18,24 +18,24 @@
  */
 function exp_get_export_icons()
 {
-  global $g_root_dir;
+	global $g_root_dir;
 
-  $icon_folder = "$g_root_dir/modules/export_manager/images/icons/";
+	$icon_folder = "$g_root_dir/modules/export_manager/images/icons/";
 
-  // store all the icon filenames in an array
-  $filenames = array();
-  if ($handle = opendir($icon_folder))
-  {
-    while (false !== ($file = readdir($handle)))
-    {
-      $extension = ft_get_filename_extension($file, true);
+	// store all the icon filenames in an array
+	$filenames = array();
+	if ($handle = opendir($icon_folder))
+	{
+		while (false !== ($file = readdir($handle)))
+		{
+			$extension = ft_get_filename_extension($file, true);
 
-      if ($extension == "jpg" || $extension == "gif" || $extension == "bmp" || $extension == "png")
-        $filenames[] = $file;
-    }
-  }
+			if ($extension == "jpg" || $extension == "gif" || $extension == "bmp" || $extension == "png")
+			  $filenames[] = $file;
+		}
+	}
 
-  return $filenames;
+	return $filenames;
 }
 
 
@@ -47,21 +47,15 @@ function exp_get_export_icons()
  */
 function exp_update_settings($info)
 {
-  global $g_table_prefix, $L;
+	global $g_table_prefix, $L;
 
-  $old_settings = ft_get_module_settings();
-
-  $info = ft_sanitize($info);
+	$old_settings = ft_get_module_settings();
 
   $settings = array();
   $settings["file_upload_dir"] = $info["file_upload_dir"];
   $settings["file_upload_url"] = $info["file_upload_url"];
-  $settings["cache_multi_select_fields"] = (isset($info["cache_multi_select_fields"]) && !empty($info["cache_multi_select_fields"])) ?
-    $info["cache_multi_select_fields"] : "no";
 
   ft_set_module_settings($settings);
-
-  $_SESSION["ft"]["export_manager"]["cache_multi_select_fields"] = $settings["cache_multi_select_fields"];
 
   return array(true, $L["notify_settings_updated"]);
 }
@@ -75,29 +69,29 @@ function exp_update_settings($info)
  */
 function exp_get_export_filename_placeholder_hash()
 {
-   $offset = ft_get_current_timezone_offset();
-  $date_str = ft_get_date($offset, ft_get_current_datetime(), "Y|y|F|M|m|n|d|D|j|g|h|H|i|s|U|a");
-  list($Y, $y, $F, $M, $m, $n, $d, $D, $j, $g, $h, $H, $i, $s, $U, $a) = explode("|", $date_str);
+ 	$offset = ft_get_current_timezone_offset();
+	$date_str = ft_get_date($offset, ft_get_current_datetime(), "Y|y|F|M|m|n|d|D|j|g|h|H|i|s|U|a");
+	list($Y, $y, $F, $M, $m, $n, $d, $D, $j, $g, $h, $H, $i, $s, $U, $a) = explode("|", $date_str);
 
-  $placeholders = array(
-    "datetime" => "$Y-$m-$d.$H-$i-$s",
-    "date" => "$Y-$m-$d",
-    "time" => "$H-$i-$s",
-    "Y" => $Y,
-    "y" => $y,
-    "F" => $F,
-    "M" => $M,
-    "n" => $n,
-    "d" => $d,
-    "D" => $D,
-    "j" => $j,
-    "g" => $g,
-    "h" => $h,
-    "H" => $H,
-    "s" => $s,
-    "U" => $U,
-    "a" => $a
-  );
+	$placeholders = array(
+	  "datetime" => "$Y-$m-$d.$H-$i-$s",
+	  "date" => "$Y-$m-$d",
+	  "time" => "$H-$i-$s",
+	  "Y" => $Y,
+	  "y" => $y,
+	  "F" => $F,
+	  "M" => $M,
+	  "n" => $n,
+	  "d" => $d,
+	  "D" => $D,
+	  "j" => $j,
+	  "g" => $g,
+	  "h" => $h,
+	  "H" => $H,
+	  "s" => $s,
+	  "U" => $U,
+	  "a" => $a
+	);
 
-  return $placeholders;
+	return $placeholders;
 }

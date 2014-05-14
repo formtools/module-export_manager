@@ -4,7 +4,6 @@ $page_vars = array();
 $page_vars["page"] = "add_export_type";
 $page_vars["tabs"] = $tabs;
 $page_vars["export_group_info"] = exp_get_export_group($export_group_id);
-$page_vars["head_string"] = "<script type=\"text/javascript\" src=\"$g_root_url/global/codemirror/js/codemirror.js\"></script>";
 $page_vars["head_title"] = "{$L["module_name"]} - {$L["phrase_add_export_type"]}";
 $page_vars["export_group_id"] = $export_group_id;
 $page_vars["head_js"] = "
