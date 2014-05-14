@@ -18,9 +18,9 @@ $results         = (isset($request["export_group_{$export_group_id}_results"])) 
 
 // drawn from sessions
 $form_id       = isset($_SESSION["ft"]["curr_form_id"]) ? $_SESSION["ft"]["curr_form_id"] : "";
-$view_id       = $_SESSION["ft"]["form_{$form_id}_view_id"];
-$order         = $_SESSION["ft"]["current_search"]["order"];
-$search_fields = $_SESSION["ft"]["current_search"]["search_fields"];
+$view_id       = isset($_SESSION["ft"]["form_{$form_id}_view_id"]) ? $_SESSION["ft"]["form_{$form_id}_view_id"] : "";
+$order         = isset($_SESSION["ft"]["current_search"]["order"]) ? $_SESSION["ft"]["current_search"]["order"] : "";
+$search_fields = isset($_SESSION["ft"]["current_search"]["search_fields"]) ? $_SESSION["ft"]["current_search"]["search_fields"] : array();
 
 $export_group_results = ft_load_module_field("export_manager", "export_group_{$export_group_id}_results", "export_group_{$export_group_id}_results");
 
@@ -44,8 +44,8 @@ $search_rows        = $results_info["search_rows"];
 $search_num_results = $results_info["search_num_results"];
 $view_num_results   = $results_info["view_num_results"];
 
-$form_info    = ft_get_form($form_id);
-$view_info    = ft_get_view($view_id);
+$form_info   = ft_get_form($form_id);
+$view_info   = ft_get_view($view_id);
 $form_fields = ft_get_form_fields($form_id, array("include_field_type_info" => true, "include_field_settings" => true));
 $field_types = ft_get_field_types(true);
 
