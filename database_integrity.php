@@ -1,7 +1,6 @@
 <?php
 
 $STRUCTURE = array();
-$STRUCTURE = array();
 $STRUCTURE["tables"] = array();
 $STRUCTURE["tables"]["module_export_groups"] = array(
   array(

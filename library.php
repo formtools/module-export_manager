@@ -92,6 +92,9 @@ function export_manager__install($module_id)
 }
 
 
+/**
+ * The old upgrade script.
+ */
 function export_manager__upgrade($old_version, $new_version)
 {
   global $g_table_prefix;
@@ -114,6 +117,67 @@ function export_manager__upgrade($old_version, $new_version)
     mysql_query("ALTER TABLE {$g_table_prefix}module_export_groups ADD form_view_mapping ENUM('all', 'except', 'only') NOT NULL DEFAULT all AFTER access_type");
     mysql_query("ALTER TABLE {$g_table_prefix}module_export_groups ADD forms_and_views MEDIUMTEXT NULL AFTER form_view_mapping");
   }
+}
+
+
+/**
+ * This is the new Update function, defined in 2.1.5 of the Core. It replaces the old __upgrade function.
+ *
+ * @param unknown_type $old_version_info the contents of the module record in the database.
+ * @param unknown_type $new_version_info the contents of the module.php info file
+ */
+function export_manager__update($old_version_info, $new_version_info)
+{
+  global $g_table_prefix;
+
+  $old_version_date = date("Ymd", ft_convert_datetime_to_timestamp($old_version_info["module_date"]));
+
+  if ($old_version_date < 20090908)
+  {
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_groups TYPE=MyISAM");
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_groups ENGINE=MyISAM");
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_group_clients TYPE=MyISAM");
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_group_clients ENGINE=MyISAM");
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_types TYPE=MyISAM");
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_types ENGINE=MyISAM");
+  }
+
+  // added for 2.0.8 - it confirms that the previous update (which failed on some system) was made properly
+  if ($old_version_date < 20111024)
+  {
+    $query = mysql_query("SHOW COLUMNS FROM {$g_table_prefix}module_export_groups");
+    $cols = array();
+    while ($row = mysql_fetch_assoc($query))
+    {
+      $cols[] = $row["Field"];
+    }
+
+    if (!in_array("form_view_mapping", $cols))
+    {
+      $query = mysql_query("
+        ALTER TABLE {$g_table_prefix}module_export_groups
+        ADD form_view_mapping ENUM('all', 'except', 'only') NOT NULL
+        DEFAULT all AFTER access_type
+      ");
+      if (!$query)
+      {
+      	return array(false, "We couldn't add the form_view_mapping database field. Please report this problem in the forums.");
+      }
+    }
+    if (!in_array("forms_and_views", $cols))
+    {
+      $query = mysql_query("
+        ALTER TABLE {$g_table_prefix}module_export_groups
+        ADD forms_and_views MEDIUMTEXT NULL AFTER form_view_mapping
+      ");
+      if (!$query)
+      {
+      	return array(false, "We couldn't add the forms_and_views database field. Please report this problem in the forums.");
+      }
+    }
+  }
+
+  return array(true, "");
 }
 
 
