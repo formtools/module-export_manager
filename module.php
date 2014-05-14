@@ -10,9 +10,9 @@
 
 $MODULE["author"]          = "Encore Web Studios";
 $MODULE["author_email"]    = "formtools@encorewebstudios.com";
-$MODULE["author_link"]     = "http://modules.formtools.org";
-$MODULE["version"]         = "1.0.0";
-$MODULE["date"]            = "2008-10-23";
+$MODULE["author_link"]     = "http://www.encorewebstudios.com";
+$MODULE["version"]         = "1.0.0-beta-20090101";
+$MODULE["date"]            = "2009-01-01";
 $MODULE["origin_language"] = "en_us";
 $MODULE["supports_ft_versions"] = "2.0.0";
 

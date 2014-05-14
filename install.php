@@ -7,7 +7,7 @@
  */
 function export_manager__install($module_id)
 {
-  global $g_table_prefix;
+  global $g_table_prefix, $g_root_dir, $g_root_url;
 
   $queries = array();
   $queries[] = "
