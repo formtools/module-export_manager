@@ -20,6 +20,7 @@
     </script>
 
     <div class="module_section export_manager_module">
+      {if $is_admin}<div class="module_link"><a href="{$g_root_url}/modules/export_manager"></a></div>{/if}
       <h2>{$LANG.word_download} / {$LANG.export_manager.word_export}</h2>
       <table cellpadding="0" cellpadding="0">
       {foreach from=$export_groups item=export_group name=row}

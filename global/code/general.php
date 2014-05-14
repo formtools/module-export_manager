@@ -121,8 +121,14 @@ function exp_display_export_options($template_name, $params)
   $view_id    = $params["view_id"];
 
   $export_groups = array();
+  $is_admin = false;
   if ($template_name == "admin_submission_listings_bottom")
+    $is_admin = true;
+
+  if ($is_admin)
+  {
     $account_id = "admin";
+  }
 
   // this does all the hard work of figuring out what groups & types are
   $export_groups = exp_get_assigned_export_types($account_id, $form_id, $view_id);
@@ -141,6 +147,7 @@ function exp_display_export_options($template_name, $params)
 
   // now pass the information to the Smarty template to display
   $g_smarty->assign("export_groups", $export_groups);
+  $g_smarty->assign("is_admin", $is_admin);
   $g_smarty->assign("page_vars", $page_vars);
   $g_smarty->assign("LANG", $params["LANG"]);
   $g_smarty->assign("export_icon_folder", "$g_root_url/modules/export_manager/images/icons");
