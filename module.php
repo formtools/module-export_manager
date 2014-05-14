@@ -2,17 +2,13 @@
 
 /*
  * Module file: Export Manager
- *
- * This module allows administrators to define their own custom export format types. For example,
- * XML or CSV (included by default). Basically, it just lets them define their own Smarty templates
- * for presenting the data in whatever form they wish.
  */
 
 $MODULE["author"]          = "Encore Web Studios";
 $MODULE["author_email"]    = "formtools@encorewebstudios.com";
 $MODULE["author_link"]     = "http://www.encorewebstudios.com";
-$MODULE["version"]         = "1.0.0-beta-20090114";
-$MODULE["date"]            = "2009-01-14";
+$MODULE["version"]         = "1.0.0-beta-20090118";
+$MODULE["date"]            = "2009-01-18";
 $MODULE["origin_language"] = "en_us";
 $MODULE["supports_ft_versions"] = "2.0.0";
 
