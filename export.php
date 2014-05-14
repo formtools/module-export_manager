@@ -87,12 +87,22 @@ $placeholders["view_id"]   = $view_id;
 $placeholders["view_name"] = $view_info["view_name"];
 $placeholders["settings"]  = ft_get_settings();
 
-// if the export type isn't available, the export group probably only contains a single export type. Get it!
 $export_group_info = exp_get_export_group($export_group_id);
 $export_types      = exp_get_export_types($export_group_id);
 
+// if the export type ID isn't available, the export group only contains a single (visible) export type
+$export_type_info = array();
 if (empty($export_type_id))
-  $export_type_info = $export_types[0];
+{
+  foreach ($export_types as $curr_export_type_info)
+  {
+    if ($curr_export_type_info["export_type_visibility"] == "show")
+    {
+      $export_type_info = $curr_export_type_info;
+      break;
+    }
+  }
+}
 else
   $export_type_info = exp_get_export_type($export_type_id);
 
@@ -144,6 +154,7 @@ else
   {
     fwrite($handle, $page);
     fclose($handle);
+    @chmod($file, 0777);
 
     $placeholders = array("url" => "$file_upload_url/{$placeholders["filename"]}");
     $message = ft_eval_smarty_string($LANG["export_manager"]["notify_file_generated"], $placeholders);
@@ -155,7 +166,7 @@ else
     $placeholders = array(
       "url"    => "$file_upload_url/{$placeholders["filename"]}",
       "folder" => $file_upload_dir,
-      "export_manager_settings_link" => "$g_root_url/modules/export_manager/settings/"
+      "export_manager_settings_link" => "$g_root_url/modules/export_manager/settings.php"
         );
     $message = ft_eval_smarty_string($LANG["export_manager"]["notify_file_not_generated"], $placeholders);
     echo "{ \"success\": 0, \"message\": \"$message\", \"target_message_id\": \"ft_message\" }";

@@ -8,7 +8,7 @@
 *}
 
   {if $export_groups|@count > 0}
-    <script src="{$modules_dir}/export_manager/global/scripts/export_manager.js?v=3"></script>
+    <script src="{$modules_dir}/export_manager/global/scripts/export_manager.js?v=4"></script>
     <script>
     {literal}
     if (typeof em == 'undefined') {

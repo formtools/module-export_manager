@@ -45,7 +45,7 @@ em.export_submissions = function(export_group_id, action) {
       var height = em["export_group_id_" + export_group_id + "_height"];
       var width  = em["export_group_id_" + export_group_id + "_width"];
       var url = em.export_page + "?export_group_id=" + export_group_id + "&export_group_" + export_group_id + "_results=" + result_type;
-      if ($("export_group_" + export_group_id + "_export_type")) {
+      if ($("#export_group_" + export_group_id + "_export_type").length) {
         url += "&export_type_id=" + $("#export_group_" + export_group_id + "_export_type").val();
       }
       window.open(url, "export_popup", "resizable=yes,scrollbars=yes,width=" + width + ",height=" + height);
@@ -63,9 +63,11 @@ em.export_submissions = function(export_group_id, action) {
       break;
 
     case "file":
-      var export_type_id = $("#export_group_" + export_group_id + "_export_type").val();
-      var url = em.export_page + "?export_group_id=" + export_group_id + "&export_type_id=" + export_type_id
+      var url = em.export_page + "?export_group_id=" + export_group_id +
         "&export_group_" + export_group_id + "_results=" + result_type + "&target_message_id=ft_message";
+      if ($("#export_group_" + export_group_id + "_export_type").length) {
+        url += "&export_type_id=" + $("#export_group_" + export_group_id + "_export_type").val();
+      }
       $.ajax({
         url:      url,
         type:     "POST",
