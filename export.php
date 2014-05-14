@@ -99,6 +99,7 @@ else
 
 $placeholders["export_group_name"] = ft_create_slug(ft_eval_smarty_string($export_group_info["group_name"]));
 $placeholders["export_group_type"] = ft_create_slug(ft_eval_smarty_string($export_type_info["export_type_name"]));
+$placeholders["page_type"] = $export_group_info["action"]; // "file" / "popup" or "new_window"
 $placeholders["filename"] = ft_eval_smarty_string($export_type_info["filename"], $placeholders);
 
 $template = $export_type_info["export_type_smarty_template"];
@@ -161,13 +162,3 @@ else
     exit;
   }
 }
-
-
-// finally, clean up any temporary cached field options by the smart_display_field_values smarty template
-// (if needed). This option is determined by the setting on the module's Settings page.
-/*if (!isset($_SESSION["ft"]["export_manager"]["cache_multi_select_fields"]))
-  $_SESSION["ft"]["export_manager"]["cache_multi_select_fields"] = ft_get_module_settings("cache_multi_select_fields", "export_manager");
-
-if ($_SESSION["ft"]["export_manager"]["cache_multi_select_fields"] == "no")
-  $_SESSION["ft"]["export_manager"]["cache"] = array();
-*/

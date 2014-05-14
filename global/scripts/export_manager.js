@@ -63,15 +63,16 @@ em.export_submissions = function(export_group_id, action) {
       break;
 
     case "file":
-      var url = em.export_page + "?export_group_id=" + export_group_id +
+      var export_type_id = $("#export_group_" + export_group_id + "_export_type").val();
+      var url = em.export_page + "?export_group_id=" + export_group_id + "&export_type_id=" + export_type_id
         "&export_group_" + export_group_id + "_results=" + result_type + "&target_message_id=ft_message";
       $.ajax({
         url:      url,
-        type:     "post",
+        type:     "POST",
         dataType: "json",
         success:  ft.response_handler,
         error:    ft.error_handler
       })
-			break;
+      break;
   }
 }

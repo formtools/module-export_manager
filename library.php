@@ -102,8 +102,11 @@ function export_manager__upgrade($old_version, $new_version)
   if ($old_version_info["release_date"] < 20090908)
   {
     @mysql_query("ALTER TABLE {$g_table_prefix}module_export_groups TYPE=MyISAM");
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_groups ENGINE=MyISAM");
     @mysql_query("ALTER TABLE {$g_table_prefix}module_export_group_clients TYPE=MyISAM");
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_group_clients ENGINE=MyISAM");
     @mysql_query("ALTER TABLE {$g_table_prefix}module_export_types TYPE=MyISAM");
+    @mysql_query("ALTER TABLE {$g_table_prefix}module_export_types ENGINE=MyISAM");
   }
 
   if ($old_version_info["release_date"] < 20110525)
