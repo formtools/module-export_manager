@@ -40,7 +40,7 @@ $page_vars["show_tabset_nav_links"] = true;
 $page_vars["prev_tabset_link"] = $prev_tabset_link;
 $page_vars["next_tabset_link"] = $next_tabset_link;
 $page_vars["head_string"] =<<< END
-  <link type="text/css" rel="stylesheet" href="$g_root_url/modules/export_manager/global/css/styles.css">
+  <link type="text/css" rel="stylesheet" href="$g_root_url/modules/export_manager/global/css/styles.css?v=205">
   <script src="$g_root_url/global/scripts/sortable.js"></script>
   <script src="$g_root_url/modules/export_manager/global/scripts/admin.js"></script>
   <script src="$g_root_url/global/codemirror/js/codemirror.js"></script>

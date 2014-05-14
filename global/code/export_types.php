@@ -274,11 +274,11 @@ function exp_get_assigned_export_types($account_id, $form_id, $view_id)
 
     if ($group["access_type"] == "public")
       $accessible_export_groups[] = $group;
-    else if ($group["access_type"] == "private")
+    else
     {
       if ($is_client)
       {
-      	if (in_array($group["export_group_id"], $private_client_accessible_export_group_ids))
+      	if ($group["access_type"] != "admin" && in_array($group["export_group_id"], $private_client_accessible_export_group_ids))
           $accessible_export_groups[] = $group;
       }
       else

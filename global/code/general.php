@@ -130,7 +130,7 @@ function exp_display_export_options($template_name, $params)
     $account_id = "admin";
   }
 
-  // this does all the hard work of figuring out what groups & types are
+  // this does all the hard work of figuring out what groups & types should appear
   $export_groups = exp_get_assigned_export_types($account_id, $form_id, $view_id);
 
   // now for the fun stuff! We loop through all export groups and log all the settings for

@@ -1,26 +1,30 @@
 .export_group_list .header_row .col2 {
-  width: 222px;
+  width: 212px;
 }
 .export_group_list .col2 {
-  width: 222px;
+  width: 212px;
   padding-left: 2px;
 }
 .export_group_list .col3 {
-  width: 80px;
+  width: 69px;
   text-align: center;
 }
 .export_group_list .col4 {
-  width: 130px;
+  width: 80px;
   text-align: center;
 }
 .export_group_list .col5 {
-  width: 200px;
+  width: 130px;
   text-align: center;
 }
-.export_group_list .col5 a {
+.export_group_list .col6 {
+  width: 140px;
+  text-align: center;
+}
+.export_group_list .col6 a {
   display: block;
 }
-.export_group_list .col5 a:hover {
+.export_group_list .col6 a:hover {
   color: orange;
   text-decoration: none;
 }

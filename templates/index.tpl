@@ -32,9 +32,10 @@
           <li class="col2">{$L.phrase_export_group}</li>
           <li class="col3">{$L.word_icon}</li>
           <li class="col4">{$L.word_visibility}</li>
-          <li class="col5">{$L.phrase_num_export_types}</li>
-          <li class="col6 edit"></li>
-          <li class="col7 colN del"></li>
+          <li class="col5">{$LANG.phrase_access_type}</li>
+          <li class="col6">{$L.phrase_num_export_types}</li>
+          <li class="col7 edit"></li>
+          <li class="col8 colN del"></li>
         </ul>
         <div class="clear"></div>
         <ul class="rows" id="rows">
@@ -57,9 +58,18 @@
                       <span class="red">{$LANG.word_hide}</span>
                     {/if}
                   </li>
-                  <li class="col5 check_area"><a href="export_groups/edit.php?page=export_types&export_group_id={$export_group_id}">{$group.num_export_types}</a></li>
-                  <li class="col6 edit"><a href="export_groups/edit.php?page=main&export_group_id={$export_group_id}"></a></li>
-                  <li class="col7 colN del"></li>
+                  <li class="col5">
+                    {if $group.access_type == 'admin'}
+                      {$LANG.phrase_admin_only}
+                    {elseif $group.access_type == 'public'}
+                      {$LANG.word_public}
+                    {elseif $group.access_type == 'private'}
+                      {$LANG.word_private}
+                    {/if}
+                  </li>
+                  <li class="col6 check_area"><a href="export_groups/edit.php?page=export_types&export_group_id={$export_group_id}">{$group.num_export_types}</a></li>
+                  <li class="col7 edit"><a href="export_groups/edit.php?page=main&export_group_id={$export_group_id}"></a></li>
+                  <li class="col8 colN del"></li>
                 </ul>
                 <div class="clear"></div>
               </div>
