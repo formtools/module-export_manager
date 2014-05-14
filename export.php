@@ -7,7 +7,7 @@
  * export.tpl found in the /modules/export_manager/templates folder.
  */
 
-require("../../global/session_start.php");
+require_once(realpath((dirname(__FILE__) . "/../../global/session_start.php")));
 ft_include_module("export_manager");
 $request = array_merge($_POST, $_GET);
 
@@ -30,6 +30,8 @@ if (empty($form_id) || empty($view_id) || empty($order) || empty($search_fields)
   echo $LANG["export_manager"]["notify_export_incomplete_fields"];
   exit;
 }
+
+set_time_limit(300);
 
 // if the user only wants to display the currently selected rows, limit the query to those submission IDs
 $submission_ids = array();
