@@ -170,3 +170,22 @@ $STRUCTURE["tables"]["module_export_types"] = array(
     "Default" => ""
   )
 );
+
+
+$HOOKS = array();
+$HOOKS["2.0.8"] = array(
+  array(
+    "hook_type"       => "template",
+    "action_location" => "admin_submission_listings_bottom",
+    "function_name"   => "",
+    "hook_function"   => "exp_display_export_options",
+    "priority"        => "50"
+  ),
+  array(
+    "hook_type"       => "template",
+    "action_location" => "client_submission_listings_bottom",
+    "function_name"   => "",
+    "hook_function"   => "exp_display_export_options",
+    "priority"        => "50"
+  )
+);
