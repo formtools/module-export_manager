@@ -82,7 +82,10 @@ $placeholders["filename"] = ft_eval_smarty_string($export_type_info["filename"],
 
 $template = $export_type_info["export_type_smarty_template"];
 $placeholders["export_type_name"] = $export_type_info["export_type_name"];
-$export_type_smarty_template = ft_eval_smarty_string($template, $placeholders);
+
+$plugin_dirs = array("$g_root_dir/modules/export_manager/smarty");
+$export_type_smarty_template = ft_eval_smarty_string($template, $placeholders, "", $plugin_dirs);
+
 
 // next, add the placeholders needed for the export group smarty template
 $template = $export_group_info["smarty_template"];
@@ -110,19 +113,41 @@ if ($export_group_info["action"] == "new_window" || $export_group_info["action"]
 // create a file on the server
 else
 {
+
 	$settings = ft_get_settings("", "export_manager");
 	$file_upload_dir = $settings["file_upload_dir"];
 	$file_upload_url = $settings["file_upload_url"];
 
   $file = "$file_upload_dir/{$placeholders["filename"]}";
-  if ($handle = fopen($file, "w"))
+  if ($handle = @fopen($file, "w"))
   {
 	  fwrite($handle, $page);
 	  fclose($handle);
 
-	  $message = "The file has been generated. <a href='$file_upload_url/{$placeholders["filename"]}' target='_blank'>Click here</a> to view the file.";
+	  $placeholders = array("url" => "$file_upload_url/{$placeholders["filename"]}");
+	  $message = ft_eval_smarty_string($LANG["export_manager"]["notify_file_generated"], $placeholders);
 	  echo "{ success: true, message: \"$message\", target_message_id: \"ft_message\" }";
 	  exit;
   }
+  else
+  {
+	  $placeholders = array(
+	    "url"    => "$file_upload_url/{$placeholders["filename"]}",
+	    "folder" => $file_upload_dir,
+	    "export_manager_settings_link" => "$g_root_url/modules/export_manager/settings/"
+	      );
+	  $message = ft_eval_smarty_string($LANG["export_manager"]["notify_file_not_generated"], $placeholders);
+	  echo "{ success: false, message: \"$message\", target_message_id: \"ft_message\" }";
+	  exit;
+  }
 }
+
+
+// finally, clean up any temporary cached field options by the smart_display_field_values smarty template
+// (if needed). This option is determined by the setting on the module's Settings page.
+if (!isset($_SESSION["ft"]["export_manager"]["cache_multi_select_fields"]))
+	$_SESSION["ft"]["export_manager"]["cache_multi_select_fields"] = ft_get_module_settings("cache_multi_select_fields", "export_manager");
+
+if ($_SESSION["ft"]["export_manager"]["cache_multi_select_fields"] == "no")
+  $_SESSION["ft"]["export_manager"]["cache"] = array();
 
