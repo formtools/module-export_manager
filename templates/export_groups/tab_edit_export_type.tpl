@@ -37,10 +37,10 @@
     <p class="bold">{$L.phrase_smarty_template}</p>
 
     <div style="border: 1px solid #666666; padding: 3px">
-      <textarea name="smarty_template" id="smarty_template" style="width:100%; height:340px">{$export_type.export_type_smarty_template}</textarea>
+      <textarea name="smarty_template" id="smarty_template" style="width:100%; height:400px">{$export_type.export_type_smarty_template}</textarea>
     </div>
 
-    <script type="text/javascript">
+    <script>
     var html_editor = new CodeMirror.fromTextArea("smarty_template", {literal}{{/literal}
     parserfile: ["parsexml.js"],
     path: "{$g_root_url}/global/codemirror/js/",

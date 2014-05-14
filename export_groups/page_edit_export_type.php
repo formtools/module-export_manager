@@ -3,21 +3,19 @@
 if (!isset($request["export_type_id"]))
 {
   session_write_close();
-	header("location: edit.php?page=export_types");
-	exit;
+  header("location: edit.php?page=export_types");
+  exit;
 }
 $export_type_id = $request["export_type_id"];
 
 if (isset($request["update_export_type"]))
   list($g_success, $g_message) = exp_update_export_type($request);
 
-$page_vars = array();
 $page_vars["page"] = "edit_export_type";
-$page_vars["tabs"] = $tabs;
 $page_vars["export_group_id"] = $export_group_id;
 $page_vars["export_group_info"] = exp_get_export_group($export_group_id);
 $page_vars["export_type"] = exp_get_export_type($export_type_id);
-$page_vars["head_string"] = "<script type=\"text/javascript\" src=\"$g_root_url/global/codemirror/js/codemirror.js\"></script>";
+$page_vars["head_string"] .= "<script type=\"text/javascript\" src=\"$g_root_url/global/codemirror/js/codemirror.js\"></script>";
 $page_vars["head_title"] = "{$L["module_name"]} - {$L["phrase_edit_export_type"]}";
 $page_vars["head_js"] = "
 var page_ns = {};

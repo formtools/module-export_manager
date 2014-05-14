@@ -26,6 +26,20 @@ $STRUCTURE["tables"]["module_export_groups"] = array(
     "Default" => "public"
   ),
   array(
+    "Field"   => "form_view_mapping",
+    "Type"    => "enum('all','except','only')",
+    "Null"    => "NO",
+    "Key"     => "",
+    "Default" => "all"
+  ),
+  array(
+    "Field"   => "forms_and_views",
+    "Type"    => "mediumtext",
+    "Null"    => "YES",
+    "Key"     => "",
+    "Default" => ""
+  ),
+  array(
     "Field"   => "visibility",
     "Type"    => "enum('show','hide')",
     "Null"    => "NO",
