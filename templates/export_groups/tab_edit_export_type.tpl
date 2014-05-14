@@ -28,17 +28,25 @@
 	    <td>
 	      <input type="text" name="filename" value="{$export_type.filename}" style="width:200px" maxlength="50" />
 	      <span class="light_grey">This is only applicable for generated files, or export groups that define headers that
-	      prompt a file download. See the <a href="http://modules.formtools.org/export_manager/?page=filename_placeholders">user documentation</a>
+	      prompt a file download. See the <a href="http://modules.formtools.org/export_manager/documentation.php?page=filename_placeholders">user documentation</a>
 	      for a list of available placeholders.</span>
 	    </td>
 	  </tr>
-	  <tr>
-	    <td valign="top" class="medium_grey">{$L.phrase_smarty_template}</td>
-	    <td>
-	      <textarea name="smarty_template" id="smarty_template" style="width:550px; height:300px">{$export_type.export_type_smarty_template}</textarea>
-	    </td>
-	  </tr>
-	  </table>
+		</table>
+		
+		<p class="bold">{$L.phrase_smarty_template}</p>
+		
+    <div style="border: 1px solid #666666; padding: 3px">			
+      <textarea name="smarty_template" id="smarty_template" style="width:100%; height:340px">{$export_type.export_type_smarty_template}</textarea>
+    </div>      
+
+    <script type="text/javascript">
+    var html_editor = new CodeMirror.fromTextArea("smarty_template", {literal}{{/literal}
+    parserfile: ["parsexml.js"],
+    path: "{$g_root_url}/global/codemirror/js/",
+    stylesheet: "{$g_root_url}/global/codemirror/css/xmlcolors.css"
+    {literal}});{/literal}
+    </script>
 
 	  <p>
 	    <input type="submit" name="update_export_type" value="{$LANG.word_update}" />
