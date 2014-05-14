@@ -157,7 +157,7 @@ function export_manager__update($old_version_info, $new_version_info)
       $query = mysql_query("
         ALTER TABLE {$g_table_prefix}module_export_groups
         ADD form_view_mapping ENUM('all', 'except', 'only') NOT NULL
-        DEFAULT all AFTER access_type
+        DEFAULT 'all' AFTER access_type
       ");
       if (!$query)
       {
