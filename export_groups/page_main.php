@@ -1,13 +1,17 @@
 <?php
 
-if (isset($request["update_export_group"]))
-  list ($g_success, $g_message) = exp_update_export_group($request);
+use FormTools\Modules\ExportManager\ExportGroups;
+use FormTools\Modules\ExportManager\General;
 
-$export_group = exp_get_export_group($export_group_id);
+if (isset($request["update_export_group"])) {
+    list ($g_success, $g_message) = ExportGroups::updateExportGroup($request);
+}
+
+$export_group = ExportGroups::getExportGroup($export_group_id);
 
 $page_vars["export_group_info"] = $export_group;
 $page_vars["page"] = "main";
-$page_vars["icons"] = exp_get_export_icons();
+$page_vars["icons"] = General::getExportIcons();
 $page_vars["head_title"] = "{$L["module_name"]} - {$L["phrase_edit_export_group"]}";
 $page_vars["head_js"] =<<< END
 var page_ns = {};
@@ -25,4 +29,4 @@ rules.push("if:action=popup,required,popup_height,Please enter the popup height.
 rules.push("if:action=popup,required,popup_width,Please enter the popup width.");
 END;
 
-ft_display_module_page("templates/export_groups/edit.tpl", $page_vars);
+$module->displayPage("templates/export_groups/edit.tpl", $page_vars);

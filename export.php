@@ -9,7 +9,6 @@
 
 require_once(realpath((dirname(__FILE__) . "/../../global/session_start.php")));
 ft_include_module("export_manager");
-$request = array_merge($_POST, $_GET);
 
 // passed in explicitly via POST or GET
 $export_group_id = (isset($request["export_group_id"])) ? $request["export_group_id"] : "";

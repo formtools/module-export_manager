@@ -6,6 +6,7 @@ namespace FormTools\Modules\ExportManager;
 use FormTools\Core;
 use PDO;
 
+
 class ExportGroups
 {
     /**
@@ -13,13 +14,13 @@ class ExportGroups
      *
      * @param integer $export_group_id
      */
-    public function getExportGroup($export_group_id)
+    public static function getExportGroup($export_group_id)
     {
         $db = Core::$db;
 
         $db->query("
             SELECT *
-            FROM   {PREFUX}module_export_groups
+            FROM   {PREFIX}module_export_groups
             WHERE  export_group_id = :export_group_id
         ");
         $db->bind("export_group_id", $export_group_id);
@@ -61,7 +62,7 @@ class ExportGroups
 
         $infohash = array();
         foreach ($results as $field) {
-            $field["num_export_types"] = ExportGroups::getNumExportTypes($field["export_group_id"]);
+            $field["num_export_types"] = ExportTypes::getNumExportTypes($field["export_group_id"]);
             $infohash[] = $field;
         }
 
@@ -74,10 +75,20 @@ class ExportGroups
      *
      * @param array $info
      */
-    public function addExportGroup($info)
+    public static function addExportGroup($info, $L)
     {
         $db = Core::$db;
-        // $L;
+
+        $info = array_merge(array(
+            "access_type" => "public",
+            "form_view_mapping" => "all",
+            "forms_and_views" => null,
+            "visibility" => "show",
+            "popup_height" => null,
+            "popup_width" => null,
+            "action" => "new_window",
+            "headers" => ""
+        ), $info);
 
         // get the next highest order count
         $db->query("SELECT count(*) FROM {PREFIX}module_export_groups");
@@ -85,23 +96,30 @@ class ExportGroups
         $order = $db->fetch(PDO::FETCH_COLUMN) + 1;
 
         // define the default options
-
         $db->query("
-            INSERT INTO {PREFIX}module_export_groups (group_name, access_type, visibility, icon, action, action_button_text, list_order)
-            VALUES (:group_name, :access_type, :visibility, :icon, :action, :action_button_text, :order)
+            INSERT INTO {PREFIX}module_export_groups (group_name, access_type, form_view_mapping, forms_and_views,
+                visibility, icon, action, action_button_text, popup_height, popup_width, headers, smarty_template, list_order)
+            VALUES (:group_name, :access_type, :form_view_mapping, :forms_and_views, :visibility,
+                :icon, :action, :action_button_text, :popup_height, :popup_width, :headers, :smarty_template, :list_order)
         ");
         $db->bindAll(array(
             "group_name" => $info["group_name"],
-            "access_type" => "admin",
+            "access_type" => $info["access_type"],
+            "form_view_mapping" => $info["form_view_mapping"],
+            "forms_and_views" => $info["forms_and_views"],
             "visibility" => $info["visibility"],
             "icon" => $info["icon"],
-            "action" => "new_window",
-            "action_button_text" => "{\$LANG.word_display}",
-            "order" => $order
+            "action" => $info["action"],
+            "action_button_text" => $info["action_button_text"],
+            "popup_height" => $info["popup_height"],
+            "popup_width" => $info["popup_width"],
+            "headers" => $info["headers"],
+            "smarty_template" => $info["smarty_template"],
+            "list_order" => $order
         ));
         $db->execute();
 
-        return array(true, $L["notify_export_group_added"]);
+        return array(true, $L["notify_export_group_added"], $db->getInsertId());
     }
 
 
@@ -111,7 +129,7 @@ class ExportGroups
      * @param array $info
      * @return array
      */
-    public function updateExportGroup($info)
+    public static function updateExportGroup($info)
     {
         $db = Core::$db;
 
@@ -146,7 +164,7 @@ class ExportGroups
     }
 
 
-    public function exp_update_export_group_permissions($info)
+    public static function updateExportGroupPermissions($info)
     {
         $db = Core::$db;
 
@@ -205,9 +223,9 @@ class ExportGroups
      *
      * @param integer $export_group_id
      */
-    public function deleteExportGroup($export_group_id)
+    public static function deleteExportGroup($export_group_id, $L)
     {
-        // $L
+        $db = Core::$db;
 
         $db->query("DELETE FROM {PREFIX}module_export_groups WHERE export_group_id = :export_group_id");
         $db->bind("export_group_id", $export_group_id);
@@ -232,7 +250,7 @@ class ExportGroups
      * This can be called after deleting an export group, or whenever is needed to ensure that the
      * order of the export groups are consistent, accurate & don't have any gaps.
      */
-    public function checkExportGroupOrder()
+    public static function checkExportGroupOrder()
     {
         $db = Core::$db;
 
@@ -255,6 +273,7 @@ class ExportGroups
                 "list_order" => $order,
                 "export_group_id" => $export_group_id
             ));
+            $db->execute();
             $order++;
         }
     }
@@ -266,11 +285,9 @@ class ExportGroups
      *
      * @param array $info
      */
-    public function reorderExportGroups($info)
+    public static function reorderExportGroups($info, $L)
     {
         $db = Core::$db;
-
-        // $L
 
         $sortable_id = $info["sortable_id"];
         $export_group_ids = explode(",", $info["{$sortable_id}_sortable__rows"]);
@@ -279,7 +296,7 @@ class ExportGroups
         foreach ($export_group_ids as $export_group_id)  {
             $db->query("
                 UPDATE {PREFIX}module_export_groups
-                SET    list_order = :order
+                SET    list_order = :list_order
                 WHERE  export_group_id = :export_group_id
             ");
             $db->bindAll(array(
@@ -302,7 +319,7 @@ class ExportGroups
      * @return array prev_id => the previous export group ID (or empty string)
      *               next_id => the next export group ID (or empty string)
      */
-    public function getExportGroupPrevNextLinks($export_group_id)
+    public static function getExportGroupPrevNextLinks($export_group_id)
     {
         $db = Core::$db;
 
@@ -333,7 +350,7 @@ class ExportGroups
     }
 
 
-    public function deserializedExportGroupMapping($str)
+    public static function deserializedExportGroupMapping($str)
     {
         $form_ids = array();
         $view_ids = array();

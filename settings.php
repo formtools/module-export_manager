@@ -4,8 +4,6 @@ require("../../global/library.php");
 ft_init_module_page();
 require_once("library.php");
 
-$request = array_merge($_POST, $_GET);
-
 if (isset($request["update"]))
   list ($g_success, $g_message) = exp_update_settings($request);
 

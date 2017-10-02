@@ -2,35 +2,39 @@
 
 require_once("../../global/library.php");
 
+use FormTools\Core;
 use FormTools\Modules;
+use FormTools\Modules\ExportManager\ExportGroups;
 
 $module = Modules::initModulePage("admin");
+$LANG = Core::$L;
+$L = $module->getLangStrings();
+$root_url = Core::getRootUrl();
 
-$request = array_merge($_POST, $_GET);
 $sortable_id = "export_group_list";
 
 $success = true;
 $message = "";
 if (isset($request["add_export_group"])) {
-    list ($success, $message) = exp_add_export_group($request);
+    list ($success, $message) = ExportGroups::addExportGroup($request, $L);
 }
 if (isset($request["delete"])) {
-    list ($success, $message) = exp_delete_export_group($request["delete"]);
+    list ($success, $message) = ExportGroups::deleteExportGroup($request["delete"], $L);
 }
 if (isset($request["update"])) {
     $request["sortable_id"] = $sortable_id;
-    list ($success, $message) = exp_reorder_export_groups($request);
+    list ($success, $message) = ExportGroups::reorderExportGroups($request, $L);
 }
 
-$export_groups = exp_get_export_groups();
+$export_groups = ExportGroups::getExportGroups();
 
 $page_vars = array(
+    "g_success" => $success,
+    "g_message" => $message,
     "export_groups" => $export_groups,
-    "sortable_id" => $sortable_id
+    "sortable_id" => $sortable_id,
+    "js_files" => array("$root_url/global/scripts/sortable.js")
 );
-$page_vars["head_string"] =<<< END
-<script src="{$g_root_url}/global/scripts/sortable.js"></script>
-END;
 
 $page_vars["head_js"] =<<< EOF
 var page_ns = {};
