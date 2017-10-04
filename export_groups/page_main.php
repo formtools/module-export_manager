@@ -3,12 +3,16 @@
 use FormTools\Modules\ExportManager\ExportGroups;
 use FormTools\Modules\ExportManager\General;
 
+$success = true;
+$message = "";
 if (isset($request["update_export_group"])) {
-    list ($g_success, $g_message) = ExportGroups::updateExportGroup($request);
+    list ($success, $message) = ExportGroups::updateExportGroup($request, $L);
 }
 
 $export_group = ExportGroups::getExportGroup($export_group_id);
 
+$page_vars["g_success"] = $success;
+$page_vars["g_message"] = $message;
 $page_vars["export_group_info"] = $export_group;
 $page_vars["page"] = "main";
 $page_vars["icons"] = General::getExportIcons();

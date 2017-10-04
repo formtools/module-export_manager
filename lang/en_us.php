@@ -1,15 +1,5 @@
 <?php
 
-/*
- Form Tools - Module Language File
- ---------------------------------
-
- File created: Oct 24th, 2:46 AM
-
- If you would like to help translate this module, please visit:
- http://www.formtools.org/translations/
- */
-
 $L = array();
 
 // required fields
@@ -92,7 +82,7 @@ $L["confirm_delete_export_type"] = "Are you sure you want to delete this export 
 
 $L["text_export_group_summary"] = "Add the new export group below. After this step you will be able to edit all aspects of the new export group.";
 $L["text_export_manager_intro"] = "Welcome to the Export Manager module! This module lets you control the various ways in which your form submissions can be viewed and downloaded.";
-$L["text_help_link"] = "For help on how to use this module, please see the <a href=\"http://modules.formtools.org/export_manager/documentation.php\">module help documentation</a>.";
+$L["text_help_link"] = "For help on how to use this module, please see the <a href=\"https://docs.formtools.org/modules/export_manager/\">module help documentation</a>.";
 $L["text_reset_defaults"] = "This page lets you reset all the configurations for the Export Manager's export groups and types. This is convenient if you've accidentally broken something. If you're upgrading to 2.1.0, resetting to the defaults is <b>required</b> because earlier export type code is no longer compatible. Please note that any client permissions will be lost by resetting to the defaults here.";
 
 $L["validation_select_rows_to_export"] = "Please select those rows you would like to export.";

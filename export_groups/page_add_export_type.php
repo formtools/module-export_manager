@@ -1,8 +1,10 @@
 <?php
 
+use FormTools\Modules\ExportManager\ExportGroups;
+
 $page_vars["page"] = "add_export_type";
-$page_vars["export_group_info"] = exp_get_export_group($export_group_id);
-$page_vars["head_string"] = "<script type=\"text/javascript\" src=\"$g_root_url/global/codemirror/js/codemirror.js\"></script>";
+$page_vars["export_group_info"] = ExportGroups::getExportGroup($export_group_id);
+$page_vars["head_string"] = "<script type=\"text/javascript\" src=\"$root_url/global/codemirror/js/codemirror.js\"></script>";
 $page_vars["head_title"] = "{$L["module_name"]} - {$L["phrase_add_export_type"]}";
 $page_vars["export_group_id"] = $export_group_id;
 $page_vars["head_js"] = "
@@ -13,4 +15,4 @@ page_ns.rules.push(\"required,filename,Please enter the filename structure for a
 page_ns.rules.push(\"required,smarty_template,Please enter the Smarty content for this export type.\");
 ";
 
-ft_display_module_page("templates/export_groups/edit.tpl", $page_vars);
+$module->displayPage("templates/export_groups/edit.tpl", $page_vars);

@@ -42,12 +42,8 @@ class General
      * @param array $info
      * @return array [0] T/F [1] Error / notification message
      */
-    public static function updateSettings($info)
+    public static function updateSettings($info, $L)
     {
-        // $L
-
-        $old_settings = ft_get_module_settings();
-
         $settings = array(
             "file_upload_dir" => $info["file_upload_dir"],
             "file_upload_url" => $info["file_upload_url"]

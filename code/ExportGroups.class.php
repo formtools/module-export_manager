@@ -129,7 +129,7 @@ class ExportGroups
      * @param array $info
      * @return array
      */
-    public static function updateExportGroup($info)
+    public static function updateExportGroup($info, $L)
     {
         $db = Core::$db;
 
@@ -164,7 +164,7 @@ class ExportGroups
     }
 
 
-    public static function updateExportGroupPermissions($info)
+    public static function updateExportGroupPermissions($info, $L)
     {
         $db = Core::$db;
 

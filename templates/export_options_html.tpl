@@ -8,7 +8,7 @@
 *}
 
   {if $export_groups|@count > 0}
-    <script src="{$modules_dir}/export_manager/global/scripts/export_manager.js?v=4"></script>
+    <script src="{$modules_dir}/export_manager/scripts/export_manager.js"></script>
     <script>
     {literal}
     if (typeof em == 'undefined') {
@@ -16,12 +16,14 @@
     }
     {/literal}
     em.export_page = "{$modules_dir}/export_manager/export.php";
-    g.messages["validation_select_rows_to_export"] = "{$LANG.export_manager.validation_select_rows_to_export}";
+    g.messages["validation_select_rows_to_export"] = "{$L.validation_select_rows_to_export}";
     </script>
 
     <div class="module_section export_manager_module">
       {if $is_admin}<div class="module_link"><a href="{$g_root_url}/modules/export_manager"></a></div>{/if}
-      <h2>{$LANG.word_download} / {$LANG.export_manager.word_export}</h2>
+
+      <h2>{$LANG.word_download} / {$L.word_export}</h2>
+
       <table cellpadding="0" cellpadding="0">
       {foreach from=$export_groups item=export_group name=row}
         {assign var=export_group_id value=$export_group.export_group_id}
@@ -31,10 +33,10 @@
           <td class="target_content">
             {assign var=var_name value="export_group_`$export_group_id`_results"}
             <input type="radio" name="export_group_{$export_group_id}_results" id="export_group_{$export_group_id}_results_1" value="all"
-              {if $SESSION.export_manager.$var_name == "all" || !isset($SESSION.export_manager.$var_name)}checked{/if} />
+              {if $SESSION.$var_name == "all" || !isset($SESSION.$var_name)}checked{/if} />
               <label for="export_group_{$export_group_id}_results_1"">{$LANG.word_all}</label>
             <input type="radio" name="export_group_{$export_group_id}_results" id="export_group_{$export_group_id}_results_2" value="selected"
-              {if $SESSION.export_manager.$var_name == "selected"}checked{/if} />
+              {if $SESSION.$var_name == "selected"}checked{/if} />
               <label for="export_group_{$export_group_id}_results_2"">{$LANG.word_selected}</label>
           </td>
           <td>

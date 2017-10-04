@@ -22,7 +22,11 @@ class Module extends FormToolsModule
     protected $version = "3.0.0";
     protected $date = "2017-10-01";
     protected $originLanguage = "en_us";
-    protected $jsFiles = array();
+    protected $jsFiles = array(
+        "{MODULEROOT}/scripts/admin.js",
+        "{FTROOT}/global/scripts/sortable.js",
+        "{FTROOT}/global/codemirror/js/codemirror.js"
+    );
     protected $cssFiles = array("css/styles.css");
 
     protected $nav = array(
@@ -57,7 +61,6 @@ class Module extends FormToolsModule
         } catch (PDOException $e) {
             $db->rollbackTransaction();
             $success = false;
-            print_r($e);
             $message = $L["notify_installation_problem_c"] . " <b>" . $e->getMessage() . "</b>";
         }
 
@@ -84,6 +87,34 @@ class Module extends FormToolsModule
     }
 
 
+    public function resetData()
+    {
+        $db = Core::$db;
+        $L = $this->getLangStrings();
+
+        $success = true;
+        $message = $L["notify_reset_to_default"];
+
+        try {
+            $db->beginTransaction();
+
+            General::clearTableData();
+            $this->addHtmlExportGroup();
+            $this->addExcelExportGroup();
+            $this->addXmlExportGroup();
+            $this->addCsvExportGroup();
+            $this->addModuleSettings();
+
+            $db->processTransaction();
+        } catch (PDOException $e) {
+            $db->rollbackTransaction();
+            $success = false;
+            $message = $L["notify_installation_problem_c"] . " <b>" . $e->getMessage() . "</b>";
+        }
+
+        return array($success, $message);
+    }
+
     /**
      * This hook function is what actually outputs the Export options at the bottom of the Submission Listing page.
      *
@@ -95,6 +126,7 @@ class Module extends FormToolsModule
         $account_id = Sessions::get("account.account_id");
         $root_url = Core::getRootUrl();
         $smarty = Core::$smarty;
+        $L = $this->getLangStrings();
 
         $form_id = $params["form_id"];
         $view_id = $params["view_id"];
@@ -118,12 +150,12 @@ class Module extends FormToolsModule
                 "export_group_{$export_group_id}_export_type", "export_group_{$export_group_id}_export_type");
         }
 
-        $params["LANG"]["export_manager"] = ft_get_module_lang_file_contents("export_manager");
-
         // now pass the information to the Smarty template to display
         $smarty->assign("export_groups", $export_groups);
         $smarty->assign("is_admin", $is_admin);
         $smarty->assign("page_vars", $page_vars);
+        $smarty->assign("L", $L);
+        $smarty->assign("SESSION", Settings::get("export_manager"));
         $smarty->assign("LANG", $params["LANG"]);
         $smarty->assign("export_icon_folder", "$root_url/modules/export_manager/images/icons");
 
@@ -228,7 +260,7 @@ END;
 
         ExportTypes::addExportType(array(
             "export_type_name" => $L["phrase_table_format"],
-            "export_type_visibility" => "show",
+            "visibility" => "show",
             "filename" => "submissions-{\$M}.{\$j}.html",
             "export_group_id" => $export_group_id,
             "smarty_template" => $table_smarty_template
@@ -259,7 +291,7 @@ END;
 
         ExportTypes::addExportType(array(
             "export_type_name" => $L["phrase_one_by_one"],
-            "export_type_visibility" => "show",
+            "visibility" => "show",
             "filename" => "submissions-{\$M}.{\$j}.html",
             "export_group_id" => $export_group_id,
             "smarty_template" => $one_by_one_smarty_template
@@ -292,7 +324,7 @@ END;
 
         ExportTypes::addExportType(array(
             "export_type_name" => $L["phrase_one_submission_per_page"],
-            "export_type_visibility" => "show",
+            "visibility" => "show",
             "filename" => "submissions-{\$M}.{\$j}.html",
             "export_group_id" => $export_group_id,
             "smarty_template" => $one_submission_smarty_template
@@ -340,7 +372,7 @@ END;
 
         ExportTypes::addExportType(array(
             "export_type_name" => $L["phrase_table_format"],
-            "export_type_visibility" => "show",
+            "visibility" => "show",
             "filename" => "submissions-{\$M}.{\$j}.html",
             "export_group_id" => $export_group_id,
             "smarty_template" => $excel_smarty_template
@@ -392,7 +424,7 @@ END;
 
         ExportTypes::addExportType(array(
             "export_type_name" => $LANG["phrase_all_submissions"],
-            "export_type_visibility" => "show",
+            "visibility" => "show",
             "filename" => "form{\$form_id}_{\$datetime}.xml",
             "export_group_id" => $export_group_id,
             "smarty_template" => $xml_smarty_template
@@ -419,7 +451,7 @@ END;
 
         ExportTypes::addExportType(array(
             "export_type_name" => $LANG["phrase_all_submissions"],
-            "export_type_visibility" => "show",
+            "visibility" => "show",
             "filename" => "form{\$form_id}_{\$datetime}.csv",
             "export_group_id" => $export_group_id,
             "smarty_template" => $csv_smarty_template
@@ -445,6 +477,7 @@ END;
             "file_upload_url" => "$root_url/upload"
         ), "export_manager");
     }
+
 
     private function createTables()
     {

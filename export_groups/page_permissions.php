@@ -1,13 +1,21 @@
 <?php
 
-if (isset($request["update_permissions"]))
-  list ($g_success, $g_message) = exp_update_export_group_permissions($request);
+use FormTools\Forms;
+use FormTools\Modules\ExportManager\ExportGroups;
 
-$forms = ft_get_form_view_list();
-$export_group_info = exp_get_export_group($export_group_id);
-$mappings = exp_deserialized_export_group_mapping($export_group_info["forms_and_views"]);
+$success = true;
+$message = "";
+if (isset($request["update_permissions"])) {
+    list ($success, $message) = ExportGroups::updateExportGroupPermissions($request, $L);
+}
+
+$forms = Forms::getFormViewList();
+$export_group_info = ExportGroups::getExportGroup($export_group_id);
+$mappings = ExportGroups::deserializedExportGroupMapping($export_group_info["forms_and_views"]);
 
 $page_vars["page"] = "permissions";
+$page_vars["g_success"] = $success;
+$page_vars["g_message"] = $message;
 $page_vars["forms"] = $forms;
 $page_vars["selected_form_ids"] = $mappings["form_ids"];
 $page_vars["selected_view_ids"] = $mappings["view_ids"];
@@ -59,7 +67,6 @@ $(function() {
     ft.select_all("selected_client_ids[]");
   });
 });
-
 EOF;
 
-ft_display_module_page("templates/export_groups/edit.tpl", $page_vars);
+$module->displayPage("templates/export_groups/edit.tpl", $page_vars);

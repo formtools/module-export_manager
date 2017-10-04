@@ -1,23 +1,31 @@
 <?php
 
 require("../../global/library.php");
-ft_init_module_page();
-require_once("library.php");
 
-if (isset($request["update"]))
-  list ($g_success, $g_message) = exp_update_settings($request);
+use FormTools\Core;
+use FormTools\Modules;
+use FormTools\Modules\ExportManager\General;
 
-$module_settings = ft_get_module_settings();
+$module = Modules::initModulePage("admin");
+$LANG = Core::$L;
+$L = $module->getLangStrings();
 
-$module_id = ft_get_module_id_from_module_folder("export_manager");
-$module_info = ft_get_module($module_id);
+$success = true;
+$message = "";
+if (isset($request["update"])) {
+    list ($success, $message) = General::updateSettings($request, $L);
+}
 
-// ------------------------------------------------------------------------------------------------
+$module_settings = Modules::getModuleSettings();
+$module_id = Modules::getModuleIdFromModuleFolder("export_manager");
 
-$page_vars = array();
-$page_vars["head_title"] = "{$L["module_name"]} - {$LANG["word_settings"]}";
-$page_vars["module_settings"] = $module_settings;
-$page_vars["module_version"] = $module_info["version"];
-$page_vars["allow_url_fopen"] = (ini_get("allow_url_fopen") == "1");
+$page_vars = array(
+    "g_success" => $success,
+    "g_message" => $message,
+    "head_title" => "{$L["module_name"]} - {$LANG["word_settings"]}",
+    "module_settings" => $module_settings,
+    "module_version" => $module->getVersion(),
+    "allow_url_fopen" => (ini_get("allow_url_fopen") == "1")
+);
 
-ft_display_module_page("templates/settings.tpl", $page_vars);
+$module->displayPage("templates/settings.tpl", $page_vars);

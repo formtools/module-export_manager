@@ -47,14 +47,10 @@ $next_tabset_link = (!empty($links["next_id"])) ? "edit.php?page=$page&export_gr
 
 $page_vars = array(
     "tabs" => $tabs,
+    "samepage" => $php_self,
     "show_tabset_nav_links" => true,
     "prev_tabset_link" => $prev_tabset_link,
-    "next_tabset_link" => $next_tabset_link,
-    "js_files" => array(
-        "$root_url/global/scripts/sortable.js",
-        "$root_url/modules/export_manager/global/scripts/admin.js",
-        "$root_url/global/codemirror/js/codemirror.js"
-    )
+    "next_tabset_link" => $next_tabset_link
 );
 
 // load the appropriate code pages

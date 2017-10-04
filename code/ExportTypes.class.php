@@ -12,7 +12,7 @@ class ExportTypes
      *
      * @param integer $export_type_id
      */
-    public static function deleteExportType($export_type_id)
+    public static function deleteExportType($export_type_id, $L)
     {
         $db = Core::$db;
 
@@ -132,7 +132,7 @@ class ExportTypes
         ");
         $db->bindAll(array(
             "export_type_name" => $info["export_type_name"],
-            "export_type_visibility" => $info["export_type_visibility"],
+            "export_type_visibility" => $info["visibility"],
             "filename" => $info["filename"],
             "export_group_id" => $info["export_group_id"],
             "smarty_template" => $info["smarty_template"],
@@ -150,7 +150,7 @@ class ExportTypes
      * @param integer $export_type_id
      * @param array
      */
-    public static function updateExportType($info)
+    public static function updateExportType($info, $L)
     {
         $db = Core::$db;
 
@@ -167,9 +167,9 @@ class ExportTypes
             "export_type_name" => $info["export_type_name"],
             "visibility" => $info["visibility"],
             "filename" => $info["filename"],
-            "export_group_id" => $info["export_type_id"],
+            "export_group_id" => $info["export_group_id"],
             "smarty_template" => $info["smarty_template"],
-            "export_type_id" => $info["export_group_id"]
+            "export_type_id" => $info["export_type_id"]
         ));
         $db->execute();
 
@@ -223,7 +223,7 @@ class ExportTypes
      *
      * @param array $info
      */
-    public static function reorderExportTypes($info)
+    public static function reorderExportTypes($info, $L)
     {
         $db = Core::$db;
 
@@ -241,10 +241,11 @@ class ExportTypes
             ");
             $db->bindAll(array(
                 "list_order" => $order,
-                "export_type_id" > $export_type_id,
+                "export_type_id" => $export_type_id,
                 "export_group_id" => $export_group_id
             ));
             $db->execute();
+
             $order++;
         }
 
