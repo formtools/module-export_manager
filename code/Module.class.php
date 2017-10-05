@@ -155,7 +155,7 @@ class Module extends FormToolsModule
         $smarty->assign("is_admin", $is_admin);
         $smarty->assign("page_vars", $page_vars);
         $smarty->assign("L", $L);
-        $smarty->assign("SESSION", Settings::get("export_manager"));
+        $smarty->assign("SESSION", Sessions::get("export_manager"));
         $smarty->assign("LANG", $params["LANG"]);
         $smarty->assign("export_icon_folder", "$root_url/modules/export_manager/images/icons");
 
@@ -389,10 +389,11 @@ END;
             "visibility" => "hide",
             "icon" => "xml.jpg",
             "action_button_text" => $L["word_generate"],
-            "smarty_template" => "<?xml version=\"1.0\" encoding=\"utf - 8\" ?>\r\n\r\n{\$export_type_smarty_template}"
+            "smarty_template" => "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n\r\n{\$export_type_smarty_template}"
         ), $L);
 
         $xml_smarty_template =<<< END
+{strip}
 <export>
     <export_datetime>{\$datetime}</export_datetime>
     <export_unixtime>{\$U}</export_unixtime>
@@ -420,6 +421,7 @@ END;
         {/foreach}
     </submissions>
 </export>
+{/strip}
 END;
 
         ExportTypes::addExportType(array(
@@ -441,12 +443,38 @@ END;
             "visibility" => "hide",
             "icon" => "csv.gif",
             "action_button_text" => $L["word_generate"],
-            "headers" => "Content-type: application/xml; charset=\"octet - stream\"\r\nContent-Disposition: attachment; filename={\$filename}",
-            "smarty_template" => "<?xml version=\"1.0\" encoding=\"utf - 8\" ?>\r\n\r\n{\$export_type_smarty_template}"
+            "headers" => "Content-type: text/csv; charset=\"octet-stream\"\r\nContent-Disposition: attachment; filename={\$filename}",
+            "smarty_template" => "{\$export_type_smarty_template}"
         ), $L);
 
         $csv_smarty_template =<<< END
-{strip}\r\n  {foreach from=\$display_fields item=column name=row}\r\n    {* workaround for an absurd Microsoft Excel problem, in which the first\r\n       two characters of a file cannot be ID; see:\r\n       http://support.microsoft.com /kb/323626 *}\r\n    {if \$smarty.foreach.row.first && \$column.field_title == \"ID\"}\r\n      .ID\r\n    {else}\r\n      {\$column.field_title|escape:''csv''}\r\n    {/if}\r\n    {if !\$smarty.foreach.row.last},{/if}\r\n  {/foreach}\r\n{/strip}\r\n{foreach from=\$submissions item=submission name=row}{strip}\r\n  {foreach from=\$display_fields item=field_info name=col_row}\r\n    {assign var=col_name value=\$field_info.col_name}\r\n    {assign var=value value=\$submission.\$col_name}\r\n    {smart_display_field form_id=\$form_id view_id=\$view_id\r\n      submission_id=\$submission.submission_id field_info=\$field_info\r\n      field_types=\$field_types settings=\$settings value=\$value\r\n      escape=\"csv\"}\r\n    {* if this wasn''t the last row, output a comma *}\r\n    {if !\$smarty.foreach.col_row.last},{/if}\r\n  {/foreach}\r\n{/strip}\r\n{if !\$smarty.foreach.row.last}\r\n{/if}\r\n{/foreach}
+{strip}
+{foreach from=\$display_fields item=column name=row}
+  {* workaround for an absurd Microsoft Excel problem, in which the first
+     two characters of a file cannot be ID; see:
+     http://support.microsoft.com/kb/323626 *}
+  {if \$smarty.foreach.row.first && \$column.field_title == "ID"}
+    'ID
+  {else}
+    {\$column.field_title|escape:'csv'}
+  {/if}
+  {if !\$smarty.foreach.row.last},{/if}
+{/foreach}
+{/strip}
+{foreach from=\$submissions item=submission name=row}{strip}
+  {foreach from=\$display_fields item=field_info name=col_row}
+    {assign var=col_name value=\$field_info.col_name}
+    {assign var=value value=\$submission.\$col_name}
+    {smart_display_field form_id=\$form_id view_id=\$view_id 
+      submission_id=\$submission.submission_id field_info=\$field_info
+      field_types=\$field_types settings=\$settings value=\$value
+      escape="csv"}
+    {* if this wasn't the last row, output a comma *}
+    {if !\$smarty.foreach.col_row.last},{/if}
+  {/foreach}{/strip}
+{if !\$smarty.foreach.row.last}
+{/if}
+{/foreach}
 END;
 
         ExportTypes::addExportType(array(

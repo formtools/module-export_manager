@@ -21,7 +21,7 @@ function smarty_function_smart_display_field($params, &$smarty)
     if (isset($params["escape"])) {
         if ($params["escape"] == "csv") {
             $value = preg_replace("/\"/", "\"\"", $value);
-            if (strstr($value, ",")) {
+            if (strstr($value, ",") || strstr($value, "\n")) {
                 $value = "\"$value\"";
             }
         }

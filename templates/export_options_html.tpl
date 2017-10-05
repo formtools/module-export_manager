@@ -33,10 +33,10 @@
           <td class="target_content">
             {assign var=var_name value="export_group_`$export_group_id`_results"}
             <input type="radio" name="export_group_{$export_group_id}_results" id="export_group_{$export_group_id}_results_1" value="all"
-              {if $SESSION.$var_name == "all" || !isset($SESSION.$var_name)}checked{/if} />
+              {if !isset($SESSION.$var_name) || $SESSION.$var_name == "all"}checked{/if} />
               <label for="export_group_{$export_group_id}_results_1"">{$LANG.word_all}</label>
             <input type="radio" name="export_group_{$export_group_id}_results" id="export_group_{$export_group_id}_results_2" value="selected"
-              {if $SESSION.$var_name == "selected"}checked{/if} />
+              {if isset($SESSION.$var_name) && $SESSION.$var_name == "selected"}checked{/if} />
               <label for="export_group_{$export_group_id}_results_2"">{$LANG.word_selected}</label>
           </td>
           <td>

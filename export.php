@@ -103,7 +103,8 @@ $placeholders["view_name"] = $view_info["view_name"];
 $placeholders["settings"]  = Settings::get();
 
 $export_group_info = ExportGroups::getExportGroup($export_group_id);
-$export_types      = ExportTypes::getExportType($export_group_id);
+$export_types      = ExportTypes::getExportTypes($export_group_id);
+
 
 // if the export type ID isn't available, the export group only contains a single (visible) export type
 $export_type_info = array();
@@ -126,7 +127,7 @@ $placeholders["filename"] = CoreGeneral::evalSmartyString($export_type_info["fil
 $template = $export_type_info["export_type_smarty_template"];
 $placeholders["export_type_name"] = $export_type_info["export_type_name"];
 
-$plugin_dirs = array("$root_dir/modules/export_manager/smarty");
+$plugin_dirs = array("$root_dir/modules/export_manager/smarty_plugins");
 $export_type_smarty_template = CoreGeneral::evalSmartyString($template, $placeholders, "", $plugin_dirs);
 
 
@@ -135,10 +136,15 @@ $template = $export_group_info["smarty_template"];
 $placeholders["export_group_name"] = CoreGeneral::evalSmartyString($export_group_info["group_name"]);
 $placeholders["export_types"] = $export_types;
 $placeholders["export_type_smarty_template"] = $export_type_smarty_template;
+
+//print_r($placeholders);
+//exit;
+
 $page = CoreGeneral::evalSmartyString($template, $placeholders);
 
 
 if ($export_group_info["action"] == "new_window" || $export_group_info["action"] == "popup") {
+
     // if required, send the HTTP headers
     if (!empty($export_group_info["headers"])) {
         $headers = preg_replace("/\r\n|\r/", "\n", $export_group_info["headers"]);
