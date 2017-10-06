@@ -87,6 +87,8 @@ class ExportGroups
             "popup_height" => null,
             "popup_width" => null,
             "action" => "new_window",
+            "action_button_text" => $L["word_generate"],
+            "smarty_template" => "",
             "headers" => ""
         ), $info);
 

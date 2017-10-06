@@ -137,11 +137,7 @@ $placeholders["export_group_name"] = CoreGeneral::evalSmartyString($export_group
 $placeholders["export_types"] = $export_types;
 $placeholders["export_type_smarty_template"] = $export_type_smarty_template;
 
-//print_r($placeholders);
-//exit;
-
 $page = CoreGeneral::evalSmartyString($template, $placeholders);
-
 
 if ($export_group_info["action"] == "new_window" || $export_group_info["action"] == "popup") {
 

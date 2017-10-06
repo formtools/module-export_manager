@@ -79,6 +79,7 @@ ul.icon_list li {
   -moz-border-radius: 4px;
   border-radius: 4px;
   float: left;
+  cursor: pointer;
 }
 ul.icon_list li:hover, ul.icon_list li.selected {
   background-color: #bad7eb;

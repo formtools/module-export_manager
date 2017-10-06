@@ -338,7 +338,6 @@ END;
         list ($success, $message, $export_group_id) = ExportGroups::addExportGroup(array(
             "group_name" => $L["word_excel"],
             "icon" => "xls.gif",
-            "action_button_text" => $L["word_generate"],
             "headers" => "Pragma: public\nCache-Control: max-age=0\nContent-Type: application/vnd.ms-excel; charset=utf-8\nContent-Disposition: attachment; filename={\$filename}",
             "smarty_template" => "<html>\n<head>\n</head>\n<body>\n\n{\$export_type_smarty_template}\n\n</body>\n</html>"
         ), $L);
@@ -388,7 +387,7 @@ END;
             "group_name" => $L["word_xml"],
             "visibility" => "hide",
             "icon" => "xml.jpg",
-            "action_button_text" => $L["word_generate"],
+            "headers" => "Content-type: application/xml; charset=\"octet-stream\"\r\nContent-Disposition: attachment; filename={\$filename}",
             "smarty_template" => "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n\r\n{\$export_type_smarty_template}"
         ), $L);
 
@@ -442,8 +441,7 @@ END;
             "group_name" => $L["word_csv"],
             "visibility" => "hide",
             "icon" => "csv.gif",
-            "action_button_text" => $L["word_generate"],
-            "headers" => "Content-type: text/csv; charset=\"octet-stream\"\r\nContent-Disposition: attachment; filename={\$filename}",
+            "headers" => "Content-type: text/csv;\r\nContent-Disposition: attachment; filename={\$filename}",
             "smarty_template" => "{\$export_type_smarty_template}"
         ), $L);
 
