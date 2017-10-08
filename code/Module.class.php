@@ -4,11 +4,18 @@
 namespace FormTools\Modules\ExportManager;
 
 use FormTools\Core;
+use FormTools\Fields;
+use FormTools\FieldTypes;
+use FormTools\Forms;
+use FormTools\General as CoreGeneral;
 use FormTools\Hooks;
 use FormTools\Module as FormToolsModule;
 use FormTools\Modules;
 use FormTools\Sessions;
 use FormTools\Settings;
+use FormTools\Submissions;
+use FormTools\Views;
+
 use PDOException;
 
 
@@ -19,8 +26,8 @@ class Module extends FormToolsModule
     protected $author = "Ben Keen";
     protected $authorEmail = "ben.keen@gmail.com";
     protected $authorLink = "http://formtools.org";
-    protected $version = "3.0.0";
-    protected $date = "2017-10-01";
+    protected $version = "3.0.1";
+    protected $date = "2017-10-07";
     protected $originLanguage = "en_us";
     protected $jsFiles = array(
         "{MODULEROOT}/scripts/admin.js",
@@ -360,7 +367,7 @@ END;
         {assign var=value value=\$submission.\$col_name}
         <td>
             {smart_display_field form_id=\$form_id view_id=\$view_id submission_id=\$submission_id
-                field_info=\$field_info field_types=\$field_types settings=\$settings value=\$value escape=\"excel\"}
+                field_info=\$field_info field_types=\$field_types settings=\$settings value=\$value escape="excel"}
         </td>
     {/foreach}
 </tr>
@@ -557,5 +564,180 @@ END;
             $db->query($query);
             $db->execute();
         }
+    }
+
+    public function export ($params)
+    {
+        $L = $this->getLangStrings();
+        $root_dir = Core::getRootDir();
+        $root_url = Core::getRootUrl();
+
+        // if any of the required fields weren't entered, just output a simple blank message
+        if (empty($params["form_id"]) || empty($params["view_id"]) || empty($params["order"]) ||
+            empty($params["search_fields"]) || empty($params["export_group_id"])) {
+            echo $L["notify_export_incomplete_fields"];
+            exit;
+        }
+
+        $form_id = $params["form_id"];
+        $view_id = $params["view_id"];
+        $order = $params["order"];
+        $search_fields = $params["search_fields"];
+        $export_group_id = $params["export_group_id"];
+        $export_type_id = $params["export_type_id"];
+        $results = $params["results"];
+
+        set_time_limit(300);
+
+        // if the user only wants to display the currently selected rows, limit the query to those submission IDs
+        $submission_ids = array();
+        if ($results == "selected") {
+            $submission_ids = Sessions::get("form_{$form_id}_selected_submissions");
+        }
+
+        // perform the almighty search query
+        $results_info = Submissions::searchSubmissions($form_id, $view_id, "all", 1, $order, "all", $search_fields, $submission_ids);
+
+        $form_info   = Forms::getForm($form_id);
+        $view_info   = Views::getView($view_id);
+        $form_fields = Fields::getFormFields($form_id, array(
+            "include_field_type_info" => true,
+            "include_field_settings" => true
+        ));
+        $field_types = FieldTypes::get(true);
+
+        // display_fields contains ALL the information we need for the fields in the template
+        $display_fields = array();
+        foreach ($view_info["fields"] as $view_field_info) {
+            $curr_field_id = $view_field_info["field_id"];
+            foreach ($form_fields as $form_field_info) {
+                if ($form_field_info["field_id"] != $curr_field_id) {
+                    continue;
+                }
+                $display_fields[] = array_merge($form_field_info, $view_field_info);
+            }
+        }
+
+        // first, build the list of information we're going to send to the export type smarty template
+        $placeholders = General::getExportFilenamePlaceholderHash();
+        $placeholders["export_group_id"] = $export_group_id;
+        $placeholders["export_type_id"] = $export_type_id;
+        $placeholders["export_group_results"] = $results;
+        $placeholders["field_types"] = $field_types;
+        $placeholders["same_page"] = CoreGeneral::getCleanPhpSelf();
+        $placeholders["display_fields"] = $display_fields;
+        $placeholders["submissions"]    = $results_info["search_rows"];
+        $placeholders["num_results"]    = $results_info["search_num_results"];
+        $placeholders["view_num_results"] = $results_info["view_num_results"];
+        $placeholders["form_info"] = $form_info;
+        $placeholders["view_info"] = $view_info;
+        $placeholders["timezone_offset"] = Sessions::get("account.timezone_offset");
+
+        // pull out a few things into top level placeholders for easy use
+        $placeholders["form_id"]   = $form_id;
+        $placeholders["form_name"] = $form_info["form_name"];
+        $placeholders["form_url"]  = $form_info["form_url"];
+        $placeholders["view_id"]   = $view_id;
+        $placeholders["view_name"] = $view_info["view_name"];
+        $placeholders["settings"]  = Settings::get();
+
+        $export_group_info = ExportGroups::getExportGroup($export_group_id);
+        $export_types      = ExportTypes::getExportTypes($export_group_id);
+
+
+        // if the export type ID isn't available, the export group only contains a single (visible) export type
+        $export_type_info = array();
+        if (empty($export_type_id)) {
+            foreach ($export_types as $curr_export_type_info) {
+                if ($curr_export_type_info["export_type_visibility"] == "show") {
+                    $export_type_info = $curr_export_type_info;
+                    break;
+                }
+            }
+        } else {
+            $export_type_info = ExportTypes::getExportType($export_type_id);
+        }
+
+        $placeholders["export_group_name"] = CoreGeneral::createSlug(CoreGeneral::evalSmartyString($export_group_info["group_name"]));
+        $placeholders["export_group_type"] = CoreGeneral::createSlug(CoreGeneral::evalSmartyString($export_type_info["export_type_name"]));
+        $placeholders["page_type"] = $export_group_info["action"]; // "file" / "popup" or "new_window"
+        $placeholders["filename"] = CoreGeneral::evalSmartyString($export_type_info["filename"], $placeholders);
+
+        $template = $export_type_info["export_type_smarty_template"];
+        $placeholders["export_type_name"] = $export_type_info["export_type_name"];
+
+        $plugin_dirs = array("$root_dir/modules/export_manager/smarty_plugins");
+        $export_type_smarty_template = CoreGeneral::evalSmartyString($template, $placeholders, "", $plugin_dirs);
+
+
+        // next, add the placeholders needed for the export group smarty template
+        $template = $export_group_info["smarty_template"];
+        $placeholders["export_group_name"] = CoreGeneral::evalSmartyString($export_group_info["group_name"]);
+        $placeholders["export_types"] = $export_types;
+        $placeholders["export_type_smarty_template"] = $export_type_smarty_template;
+
+        $page = CoreGeneral::evalSmartyString($template, $placeholders);
+
+        if ($export_group_info["action"] == "new_window" || $export_group_info["action"] == "popup") {
+
+            // if required, send the HTTP headers
+            if (!empty($export_group_info["headers"])) {
+                $headers = preg_replace("/\r\n|\r/", "\n", $export_group_info["headers"]);
+                $header_lines = explode("\n", $headers);
+                foreach ($header_lines as $header) {
+                    header(CoreGeneral::evalSmartyString($header, $placeholders));
+                }
+            }
+            echo $page;
+
+        // create a file on the server
+        } else {
+            $settings = Settings::get("", "export_manager");
+            $file_upload_dir = $settings["file_upload_dir"];
+            $file_upload_url = $settings["file_upload_url"];
+
+            $file = "$file_upload_dir/{$placeholders["filename"]}";
+            if ($handle = @fopen($file, "w")) {
+                fwrite($handle, $page);
+                fclose($handle);
+                @chmod($file, 0777);
+
+                $placeholders = array("url" => "$file_upload_url/{$placeholders["filename"]}");
+                $message = CoreGeneral::evalSmartyString($L["notify_file_generated"], $placeholders);
+                echo json_encode(array(
+                    "success" => 1,
+                    "message" => $message,
+                    "target_message_id" => "ft_message"
+                ));
+                exit;
+            } else {
+                $placeholders = array(
+                    "url"    => "$file_upload_url/{$placeholders["filename"]}",
+                    "folder" => $file_upload_dir,
+                    "export_manager_settings_link" => "$root_url/modules/export_manager/settings.php"
+                );
+                $message = CoreGeneral::evalSmartyString($L["notify_file_not_generated"], $placeholders);
+                echo json_encode(array(
+                    "success" => 0,
+                    "message" => $message,
+                    "target_message_id" => "ft_message"
+                ));
+                exit;
+            }
+        }
+    }
+
+
+    /**
+     * Wrapper methods. This is for convenience: anyone consuming this module can just call:
+     *      $module = Modules::getModuleInstance();
+     * and access the methods here.
+     */
+    public function getExportGroups() {
+        return ExportGroups::getExportGroups();
+    }
+
+    public function getExportTypes($export_group, $only_return_visible) {
+        return ExportTypes::getExportTypes($export_group, $only_return_visible);
     }
 }
