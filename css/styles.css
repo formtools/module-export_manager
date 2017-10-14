@@ -34,7 +34,7 @@
 }
 .export_type_list .header_row .col3 {
   width: 350px;
-  padding-left: 0px;
+  padding-left: 0;
 }
 .export_type_list .col3 {
   width: 348px;
@@ -56,8 +56,8 @@
   border-radius: 4px;
 }
 .inner_nav ul {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 .inner_nav ul li {
@@ -67,8 +67,8 @@
 
 ul.icon_list {
   list-style: none;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 ul.icon_list li {
   padding: 2px 4px;
@@ -97,18 +97,18 @@ ul.icon_list li.no_icon {
 .overflow_panel {
   background-color: white;
   border: 1px solid #999999;
-  border-bottom: 0px;
+  border-bottom: 0;
   width: 95%;
   height: 100%;
   overflow-y: scroll;
 }
 .overflow_panel ul {
   list-style: none;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 .overflow_panel ul li {
-  padding: 2px 0px 2px 2px;
+  padding: 2px 0 2px 2px;
 }
 .overflow_panel ul li:hover {
   background-color: #efefef;
@@ -121,8 +121,8 @@ ul.icon_list li.no_icon {
   display: block;
 }
 .overflow_panel h2  {
-  padding: 0px 0px 0px 5px;
-  margin: 0px;
+  padding: 0 0 0 5px;
+  margin: 0;
   color: #336699;
 }
 .overflow_panel .view_group {
@@ -131,4 +131,14 @@ ul.icon_list li.no_icon {
 .all_views_label {
   color: #666666;
   font-style: italic;
+}
+
+.editor_wrapper {
+    border: 1px solid #999999;
+    padding: 3px;
+    width: 555px;
+    margin-bottom: 10px;
+}
+.editor_wrapper .CodeMirror {
+    height: 100%;
 }

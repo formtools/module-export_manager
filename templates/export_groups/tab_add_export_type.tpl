@@ -33,15 +33,13 @@
 
     <p class="bold">{$L.phrase_smarty_template}</p>
 
-    <div style="border: 1px solid #666666; padding: 3px">
-      <textarea name="smarty_template" id="smarty_template" style="width:100%; height:340px"></textarea>
+    <div class="editor_wrapper" style="width: 100%">
+      <textarea name="smarty_template" id="smarty_template"></textarea>
     </div>
 
     <script type="text/javascript">
-    var html_editor = new CodeMirror.fromTextArea("smarty_template", {literal}{{/literal}
-    parserfile: ["parsexml.js"],
-    path: "{$g_root_url}/global/codemirror/js/",
-    stylesheet: "{$g_root_url}/global/codemirror/css/xmlcolors.css"
+    var html_editor = new CodeMirror.fromTextArea(document.getElementById("smarty_template"), {literal}{{/literal}
+        mode: "smarty"
     {literal}});{/literal}
     </script>
 

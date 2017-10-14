@@ -69,16 +69,13 @@
       <td valign="top" class="medium_grey">{$L.word_headers}</td>
       <td>
 
-        <div style="border: 1px solid #666666; padding: 3px">
-          <textarea style="width:100%; height: 80px;" name="headers" id="headers"
-           {if $export_group_info.action == "file"}disabled{/if}>{$export_group_info.headers}</textarea>
+        <div class="editor_wrapper">
+          <textarea name="headers" id="headers" {if $export_group_info.action == "file"}disabled{/if}>{$export_group_info.headers}</textarea>
         </div>
 
-        <script type="text/javascript">
-        var html_editor = new CodeMirror.fromTextArea("headers", {literal}{{/literal}
-        parserfile: ["parsexml.js"],
-        path: "{$g_root_url}/global/codemirror/js/",
-        stylesheet: "{$g_root_url}/global/codemirror/css/xmlcolors.css"
+        <script>
+        var html_editor = new CodeMirror.fromTextArea(document.getElementById("headers"), {literal}{{/literal}
+            mode: "smarty"
         {literal}});{/literal}
         </script>
 
@@ -87,15 +84,13 @@
     <tr>
       <td valign="top" class="medium_grey">{$L.phrase_smarty_template}</td>
       <td>
-        <div style="border: 1px solid #666666; padding: 3px">
-          <textarea style="width:100%; height: 300px;" name="smarty_template" id="smarty_template">{$export_group_info.smarty_template}</textarea>
+        <div class="editor_wrapper">
+          <textarea name="smarty_template" id="smarty_template">{$export_group_info.smarty_template}</textarea>
         </div>
 
-        <script type="text/javascript">
-        var html_editor = new CodeMirror.fromTextArea("smarty_template", {literal}{{/literal}
-        parserfile: ["parsexml.js"],
-        path: "{$g_root_url}/global/codemirror/js/",
-        stylesheet: "{$g_root_url}/global/codemirror/css/xmlcolors.css"
+        <script>
+        var html_editor = new CodeMirror.fromTextArea(document.getElementById("smarty_template"), {literal}{{/literal}
+            mode: "smarty"
         {literal}});{/literal}
         </script>
       </td>

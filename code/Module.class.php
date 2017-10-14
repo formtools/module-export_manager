@@ -26,15 +26,19 @@ class Module extends FormToolsModule
     protected $author = "Ben Keen";
     protected $authorEmail = "ben.keen@gmail.com";
     protected $authorLink = "http://formtools.org";
-    protected $version = "3.0.1";
-    protected $date = "2017-10-07";
+    protected $version = "3.0.2";
+    protected $date = "2017-10-14";
     protected $originLanguage = "en_us";
     protected $jsFiles = array(
         "{MODULEROOT}/scripts/admin.js",
         "{FTROOT}/global/scripts/sortable.js",
-        "{FTROOT}/global/codemirror/js/codemirror.js"
+        "{FTROOT}/global/codemirror/lib/codemirror.js",
+        "{FTROOT}/global/codemirror/mode/smarty/smarty.js"
     );
-    protected $cssFiles = array("css/styles.css");
+    protected $cssFiles = array(
+        "{MODULEROOT}/css/styles.css",
+        "{FTROOT}/global/codemirror/lib/codemirror.css"
+    );
 
     protected $nav = array(
         "module_name"           => array("index.php", false),

@@ -4,7 +4,6 @@ use FormTools\Modules\ExportManager\ExportGroups;
 
 $page_vars["page"] = "add_export_type";
 $page_vars["export_group_info"] = ExportGroups::getExportGroup($export_group_id);
-$page_vars["head_string"] = "<script type=\"text/javascript\" src=\"$root_url/global/codemirror/js/codemirror.js\"></script>";
 $page_vars["head_title"] = "{$L["module_name"]} - {$L["phrase_add_export_type"]}";
 $page_vars["export_group_id"] = $export_group_id;
 $page_vars["head_js"] = "
