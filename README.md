@@ -1,4 +1,4 @@
-## module-export_manager
+## Export Manager module
 
 The Export Manager module provides Form Tools with one of its more important features: the ability to view and export your form submission data in any way you wish. Since it's such a fundamental feature, this module comes pre-installed with all (pre-bundled) Form Tools installations, letting you get to work without any additional configuration required. The screenshot to the right is of the 2.0.0 version of this module, but the functionality has remained largely the same since its first release.
 
@@ -10,9 +10,9 @@ For more information, read the documentation.
 
 ### Documentation
 
-[http://modules.formtools.org/export_manager/](http://modules.formtools.org/export_manager/)
+[https://docs.formtools.org/modules/export_manager/](https://docs.formtools.org/modules/export_manager/)
 
 ### Form Tools Extensions
 
-For further information about Form Tools extensions, check out the following link:
-[http://www.formtools.org/extensions.php](http://www.formtools.org/extensions.php)
+For further information about Form Tools modules, check out:
+[https://modules.formtools.org](https://modules.formtools.org)
