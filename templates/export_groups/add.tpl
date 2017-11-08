@@ -1,4 +1,4 @@
-{include file='modules_header.tpl'}
+{ft_include file='modules_header.tpl'}
 
   <table cellpadding="0" cellspacing="0" class="margin_bottom_large">
   <tr>
@@ -17,7 +17,7 @@
     {$L.text_export_group_summary}
   </div>
 
-  {include file='messages.tpl'}
+  {ft_include file='messages.tpl'}
 
   <form action="../" method="post" onsubmit="return rsv.validate(this, rules)">
 
@@ -58,4 +58,4 @@
 
   </form>
 
-{include file='modules_footer.tpl'}
+{ft_include file='modules_footer.tpl'}

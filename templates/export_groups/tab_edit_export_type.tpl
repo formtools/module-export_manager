@@ -1,4 +1,4 @@
-  {include file='messages.tpl'}
+  {ft_include file='messages.tpl'}
 
   <form action="{$same_page}" method="post" onsubmit="return rsv.validate(this, page_ns.rules)">
     <input type="hidden" name="export_type_id" value="{$export_type.export_type_id}" />

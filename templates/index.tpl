@@ -1,4 +1,4 @@
-{include file='modules_header.tpl'}
+{ft_include file='modules_header.tpl'}
 
   <table cellpadding="0" cellspacing="0">
   <tr>
@@ -11,7 +11,7 @@
   </tr>
   </table>
 
-  {include file='messages.tpl'}
+  {ft_include file='messages.tpl'}
 
   <div class="margin_bottom_large">
     {$L.text_export_manager_intro}
@@ -90,4 +90,4 @@
 
   </form>
 
-{include file='modules_footer.tpl'}
+{ft_include file='modules_footer.tpl'}
