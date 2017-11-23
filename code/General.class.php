@@ -6,7 +6,6 @@ use FormTools\Core;
 use FormTools\Files;
 use FormTools\General as CoreGeneral;
 use FormTools\Modules;
-use PDO;
 
 
 class General

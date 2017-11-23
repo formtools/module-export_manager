@@ -16,7 +16,7 @@ use FormTools\Settings;
 use FormTools\Submissions;
 use FormTools\Views;
 
-use PDOException;
+use Exception;
 
 
 class Module extends FormToolsModule
@@ -26,8 +26,8 @@ class Module extends FormToolsModule
     protected $author = "Ben Keen";
     protected $authorEmail = "ben.keen@gmail.com";
     protected $authorLink = "http://formtools.org";
-    protected $version = "3.0.3";
-    protected $date = "2017-11-07";
+    protected $version = "3.0.4";
+    protected $date = "2017-11-22";
     protected $originLanguage = "en_us";
     protected $jsFiles = array(
         "{MODULEROOT}/scripts/admin.js",
@@ -69,7 +69,7 @@ class Module extends FormToolsModule
 
             $db->processTransaction();
 
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             $db->rollbackTransaction();
             $success = false;
             $message = $L["notify_installation_problem_c"] . " <b>" . $e->getMessage() . "</b>";
@@ -117,7 +117,7 @@ class Module extends FormToolsModule
             $this->addModuleSettings();
 
             $db->processTransaction();
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             $db->rollbackTransaction();
             $success = false;
             $message = $L["notify_installation_problem_c"] . " <b>" . $e->getMessage() . "</b>";
@@ -383,7 +383,7 @@ END;
         ExportTypes::addExportType(array(
             "export_type_name" => $L["phrase_table_format"],
             "visibility" => "show",
-            "filename" => "submissions-{\$M}.{\$j}.html",
+            "filename" => "submissions-{\$M}.{\$j}.xls",
             "export_group_id" => $export_group_id,
             "smarty_template" => $excel_smarty_template
         ), $L);
@@ -671,7 +671,7 @@ END;
         $placeholders["export_type_name"] = $export_type_info["export_type_name"];
 
         $plugin_dirs = array("$root_dir/modules/export_manager/smarty_plugins");
-        $export_type_smarty_template = CoreGeneral::evalSmartyString($template, $placeholders, "", $plugin_dirs);
+        $export_type_smarty_template = CoreGeneral::evalSmartyString($template, $placeholders, $plugin_dirs);
 
 
         // next, add the placeholders needed for the export group smarty template
