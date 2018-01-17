@@ -75,8 +75,7 @@ class Module extends FormToolsModule
             $message = $L["notify_installation_problem_c"] . " <b>" . $e->getMessage() . "</b>";
         }
 
-        Hooks::registerHook("template", "export_manager", "admin_submission_listings_bottom", "", "displayExportOptions");
-        Hooks::registerHook("template", "export_manager", "client_submission_listings_bottom", "", "displayExportOptions");
+        $this->resetHooks();
 
         return array($success, $message);
     }
@@ -97,6 +96,20 @@ class Module extends FormToolsModule
         return array(true, "");
     }
 
+
+    public function upgrade($module_id, $old_module_version)
+    {
+        $this->resetHooks();
+    }
+
+
+    public function resetHooks()
+    {
+        Hooks::unregisterModuleHooks("export_manager");
+
+        Hooks::registerHook("template", "export_manager", "admin_submission_listings_bottom", "", "displayExportOptions");
+        Hooks::registerHook("template", "export_manager", "client_submission_listings_bottom", "", "displayExportOptions");
+    }
 
     public function resetData()
     {
@@ -741,7 +754,19 @@ END;
         return ExportGroups::getExportGroups();
     }
 
+    public function getExportGroup($export_group_id) {
+        return ExportGroups::getExportGroup($export_group_id);
+    }
+
     public function getExportTypes($export_group, $only_return_visible) {
         return ExportTypes::getExportTypes($export_group, $only_return_visible);
+    }
+
+    public function getExportType($export_type_id) {
+        return ExportTypes::getExportType($export_type_id);
+    }
+
+    public function getExportFilenamePlaceholderHash() {
+        return General::getExportFilenamePlaceholderHash();
     }
 }
