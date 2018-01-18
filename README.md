@@ -8,11 +8,15 @@ The Export Manager, used in conjunction with the Core Views feature, acts as a f
 
 For more information, read the documentation.
 
+
 ### Documentation
 
-[https://docs.formtools.org/modules/export_manager/](https://docs.formtools.org/modules/export_manager/)
+- [https://docs.formtools.org/modules/export_manager/](https://docs.formtools.org/modules/export_manager/)
 
-### Form Tools Extensions
 
-For further information about Form Tools modules, check out:
-[https://modules.formtools.org](https://modules.formtools.org)
+### Other Links
+
+- [Available Form Tools modules](https://modules.formtools.org/)
+- [About Form Tools modules](https://docs.formtools.org/userdoc/modules/) 
+- [Installation instructions](https://docs.formtools.org/userdoc/modules/installing/)
+- [Upgrading](https://docs.formtools.org/userdoc/modules/upgrading/)
