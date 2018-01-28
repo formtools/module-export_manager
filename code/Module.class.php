@@ -25,9 +25,9 @@ class Module extends FormToolsModule
     protected $moduleDesc = "Define your own ways of exporting form submission data for view / download. Excel, Printer-friendly HTML, XML and CSV are included by default.";
     protected $author = "Ben Keen";
     protected $authorEmail = "ben.keen@gmail.com";
-    protected $authorLink = "http://formtools.org";
-    protected $version = "3.0.4";
-    protected $date = "2017-11-22";
+    protected $authorLink = "https://formtools.org";
+    protected $version = "3.0.5";
+    protected $date = "2018-01-28";
     protected $originLanguage = "en_us";
     protected $jsFiles = array(
         "{MODULEROOT}/scripts/admin.js",
@@ -49,15 +49,12 @@ class Module extends FormToolsModule
 
     public function install($module_id)
     {
-        $db = Core::$db;
         $L = $this->getLangStrings();
 
         $success = true;
         $message = "";
 
         try {
-            $db->beginTransaction();
-
             $this->createTables();
 
             General::clearTableData();
@@ -66,11 +63,7 @@ class Module extends FormToolsModule
             $this->addXmlExportGroup();
             $this->addCsvExportGroup();
             $this->addModuleSettings();
-
-            $db->processTransaction();
-
         } catch (Exception $e) {
-            $db->rollbackTransaction();
             $success = false;
             $message = $L["notify_installation_problem_c"] . " <b>" . $e->getMessage() . "</b>";
         }
@@ -105,7 +98,7 @@ class Module extends FormToolsModule
 
     public function resetHooks()
     {
-        Hooks::unregisterModuleHooks("export_manager");
+        $this->clearHooks();
 
         Hooks::registerHook("template", "export_manager", "admin_submission_listings_bottom", "", "displayExportOptions");
         Hooks::registerHook("template", "export_manager", "client_submission_listings_bottom", "", "displayExportOptions");
@@ -113,25 +106,19 @@ class Module extends FormToolsModule
 
     public function resetData()
     {
-        $db = Core::$db;
         $L = $this->getLangStrings();
 
         $success = true;
         $message = $L["notify_reset_to_default"];
 
         try {
-            $db->beginTransaction();
-
             General::clearTableData();
             $this->addHtmlExportGroup();
             $this->addExcelExportGroup();
             $this->addXmlExportGroup();
             $this->addCsvExportGroup();
             $this->addModuleSettings();
-
-            $db->processTransaction();
         } catch (Exception $e) {
-            $db->rollbackTransaction();
             $success = false;
             $message = $L["notify_installation_problem_c"] . " <b>" . $e->getMessage() . "</b>";
         }
