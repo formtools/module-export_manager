@@ -7,6 +7,9 @@ $L["module_name"] = "Export Manager";
 $L["module_description"] = "Define your own ways of exporting form submission data for view / download. Excel, Printer-friendly HTML, XML and CSV are included by default.";
 
 // custom fields
+$L["word_all"] = "all";
+$L["word_display"] = "Display";
+$L["word_download"] = "Download";
 $L["word_help"] = "Help";
 $L["word_filename"] = "Filename";
 $L["word_icon"] = "Icon";

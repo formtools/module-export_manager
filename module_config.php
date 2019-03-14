@@ -64,7 +64,7 @@ $STRUCTURE["tables"]["module_export_groups"] = array(
         "Type"    => "varchar(255)",
         "Null"    => "NO",
         "Key"     => "",
-        "Default" => "{\$LANG.word_display}"
+        "Default" => "{\$L.word_display}"
     ),
     array(
         "Field"   => "popup_height",

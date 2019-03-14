@@ -236,7 +236,7 @@ END;
             "group_name" => $L["phrase_html_printer_friendly"],
             "icon" => "printer.png",
             "action" => "popup",
-            "action_button_text" => $LANG["word_display"],
+            "action_button_text" => $L["word_display"],
             "popup_height" => 600,
             "popup_width" => 800,
             "smarty_template" => $smarty_template
@@ -522,7 +522,7 @@ END;
         $LANG = Core::$L;
 
         $queries = array();
-        $word_display = addcslashes($LANG["word_display"], "''");
+        $word_display = addcslashes($L["word_display"], "''");
         $queries[] = "
             CREATE TABLE {PREFIX}module_export_groups (
               export_group_id smallint(5) unsigned NOT NULL auto_increment,

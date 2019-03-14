@@ -22,7 +22,7 @@
     <div class="module_section export_manager_module">
       {if $is_admin}<div class="module_link"><a href="{$g_root_url}/modules/export_manager"></a></div>{/if}
 
-      <h2>{$LANG.word_download} / {$L.word_export}</h2>
+      <h2>{$L.word_download} / {$L.word_export}</h2>
 
       <table cellpadding="0" cellpadding="0">
       {foreach from=$export_groups item=export_group name=row}
@@ -34,7 +34,7 @@
             {assign var=var_name value="export_group_`$export_group_id`_results"}
             <input type="radio" name="export_group_{$export_group_id}_results" id="export_group_{$export_group_id}_results_1" value="all"
               {if !isset($SESSION.$var_name) || $SESSION.$var_name == "all"}checked{/if} />
-              <label for="export_group_{$export_group_id}_results_1"">{$LANG.word_all}</label>
+              <label for="export_group_{$export_group_id}_results_1"">{$L.word_all}</label>
             <input type="radio" name="export_group_{$export_group_id}_results" id="export_group_{$export_group_id}_results_2" value="selected"
               {if isset($SESSION.$var_name) && $SESSION.$var_name == "selected"}checked{/if} />
               <label for="export_group_{$export_group_id}_results_2"">{$LANG.word_selected}</label>
