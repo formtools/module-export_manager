@@ -26,8 +26,8 @@ class Module extends FormToolsModule
     protected $author = "Ben Keen";
     protected $authorEmail = "ben.keen@gmail.com";
     protected $authorLink = "https://formtools.org";
-    protected $version = "3.0.5";
-    protected $date = "2018-01-28";
+    protected $version = "3.0.6";
+    protected $date = "2018-03-27";
     protected $originLanguage = "en_us";
     protected $jsFiles = array(
         "{MODULEROOT}/scripts/admin.js",
@@ -176,7 +176,6 @@ class Module extends FormToolsModule
 
     private function addHtmlExportGroup()
     {
-        $LANG = Core::$L;
         $L = $this->getLangStrings();
 
         $smarty_template =<<< END
@@ -223,7 +222,7 @@ class Module extends FormToolsModule
                 {/if}
             {/if}
             <input type="button" onclick="window.close()" value="{\$LANG.word_close}" />
-            <input type="button" onclick="window.print()" value="{\$LANG.word_print}" />
+            <input type="button" onclick="window.print()" value="{\$L.word_print}" />
         </span>
         <span id="export_group_name">{eval var=\$export_group_name}</span>
     </div>
@@ -327,7 +326,7 @@ END;
     {/foreach}
     </table>
     {if !\$smarty.foreach.row.last}
-        <div class="no_print"><i>- {\$LANG.phrase_new_page} -</i></div>
+        <div class="no_print"><i>- {\$L.phrase_new_page} -</i></div>
         <br class="page_break" />
     {/if}
 {/foreach}
@@ -680,6 +679,7 @@ END;
         $placeholders["export_types"] = $export_types;
         $placeholders["export_type_smarty_template"] = $export_type_smarty_template;
 
+		$placeholders["L"] = $L;
         $page = CoreGeneral::evalSmartyString($template, $placeholders);
 
         if ($export_group_info["action"] == "new_window" || $export_group_info["action"] == "popup") {

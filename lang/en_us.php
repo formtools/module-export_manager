@@ -7,25 +7,28 @@ $L["module_name"] = "Export Manager";
 $L["module_description"] = "Define your own ways of exporting form submission data for view / download. Excel, Printer-friendly HTML, XML and CSV are included by default.";
 
 // custom fields
+$L["word_action"] = "Action";
 $L["word_all"] = "all";
+$L["word_csv"] = "CSV";
 $L["word_display"] = "Display";
 $L["word_download"] = "Download";
-$L["word_help"] = "Help";
+$L["word_excel"] = "Excel";
+$L["word_export"] = "Export";
 $L["word_filename"] = "Filename";
+$L["word_generate"] = "Generate";
+$L["word_headers"] = "Headers";
+$L["word_height_c"] = "Height";
+$L["word_help"] = "Help";
+$L["word_hide"] = "Hide";
 $L["word_icon"] = "Icon";
 $L["word_none"] = "None";
-$L["word_action"] = "Action";
-$L["word_headers"] = "Headers";
-$L["word_excel"] = "Excel";
-$L["word_generate"] = "Generate";
-$L["word_welcome"] = "Welcome!";
-$L["word_csv"] = "CSV";
-$L["word_xml"] = "XML";
+$L["word_print"] = "Print";
+$L["word_selected"] = "selected";
 $L["word_settings"] = "Settings";
 $L["word_visibility"] = "Visibility";
-$L["word_height_c"] = "Height";
+$L["word_welcome"] = "Welcome!";
 $L["word_width_c"] = "Width";
-$L["word_export"] = "Export";
+$L["word_xml"] = "XML";
 
 $L["phrase_html_printer_friendly"] = "HTML / Printer-friendly";
 $L["phrase_add_export_type"] = "Add Export Type";
@@ -59,6 +62,7 @@ $L["phrase_generate_files_folder_path"] = "Generated files folder path";
 $L["phrase_generate_files_folder_url"] = "Generated files folder URL";
 $L["phrase_cache_multi_select_fields"] = "Cache multi-select field values for duration of session";
 $L["phrase_reset_defaults"] = "Reset to Defaults";
+$L["phrase_new_page"] = "new page";
 
 $L["notify_no_export_groups"] = "There are currently no export groups. Click the button below to add a new one.";
 $L["notify_no_export_types"] = "There are currently no export types defined in the database. Click the button below to add a new one.";
