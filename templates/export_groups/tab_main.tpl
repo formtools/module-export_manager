@@ -75,6 +75,17 @@
             </td>
         </tr>
         <tr>
+            <td class="medium_grey">{$L.phrase_content_type}</td>
+            <td>
+                <input type="radio" name="content_type" id="ct1" value="html"
+                    {if $export_group_info.content_type === 'html'}checked="checked"{/if} />
+                    <label for="ct1">HTML</label>
+                <input type="radio" name="content_type" id="ct2" value="text"
+                    {if $export_group_info.content_type === 'text'}checked="checked"{/if} />
+                    <label for="ct2">Text</label>
+            </td>
+        </tr>
+        <tr>
             <td valign="top" class="medium_grey">{$L.word_headers}</td>
             <td>
 

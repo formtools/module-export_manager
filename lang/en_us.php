@@ -63,6 +63,7 @@ $L["phrase_generate_files_folder_url"] = "Generated files folder URL";
 $L["phrase_cache_multi_select_fields"] = "Cache multi-select field values for duration of session";
 $L["phrase_reset_defaults"] = "Reset to Defaults";
 $L["phrase_new_page"] = "new page";
+$L["phrase_content_type"] = "Content Type";
 
 $L["notify_no_export_groups"] = "There are currently no export groups. Click the button below to add a new one.";
 $L["notify_no_export_types"] = "There are currently no export types defined in the database. Click the button below to add a new one.";
