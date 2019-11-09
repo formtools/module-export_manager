@@ -26,8 +26,8 @@ class Module extends FormToolsModule
 	protected $author = "Ben Keen";
 	protected $authorEmail = "ben.keen@gmail.com";
 	protected $authorLink = "https://formtools.org";
-	protected $version = "3.1.0";
-	protected $date = "2019-04-27";
+	protected $version = "3.2.0";
+	protected $date = "2019-11-09";
 	protected $originLanguage = "en_us";
 	protected $jsFiles = array(
 		"{MODULEROOT}/scripts/admin.js",
@@ -96,6 +96,9 @@ class Module extends FormToolsModule
 
 		// upgrading to 3.1.0
 		self::addExportGroupContentType();
+
+		// upgrading to 3.2.0
+		self::addExportTimeoutSetting();
 	}
 
 
@@ -514,7 +517,8 @@ END;
 
 		Settings::set(array(
 			"file_upload_dir" => $upload_dir,
-			"file_upload_url" => "$root_url/upload"
+			"file_upload_url" => "$root_url/upload",
+			"export_timeout" => 300
 		), "export_manager");
 	}
 
@@ -579,6 +583,8 @@ END;
 		$root_dir = Core::getRootDir();
 		$root_url = Core::getRootUrl();
 
+		$module_settings = Settings::get("", "export_manager");
+
 		// if any of the required fields weren't entered, just output a simple blank message
 		if (empty($params["form_id"]) || empty($params["view_id"]) || empty($params["order"]) ||
 			empty($params["search_fields"]) || empty($params["export_group_id"])) {
@@ -594,7 +600,7 @@ END;
 		$export_type_id = $params["export_type_id"];
 		$results = $params["results"];
 
-		set_time_limit(300);
+		set_time_limit($module_settings["export_timeout"]);
 
 		// if the user only wants to display the currently selected rows, limit the query to those submission IDs
 		$submission_ids = array();
@@ -700,9 +706,8 @@ END;
 
 			// create a file on the server
 		} else {
-			$settings = Settings::get("", "export_manager");
-			$file_upload_dir = $settings["file_upload_dir"];
-			$file_upload_url = $settings["file_upload_url"];
+			$file_upload_dir = $module_settings["file_upload_dir"];
+			$file_upload_url = $module_settings["file_upload_url"];
 
 			$file = "$file_upload_dir/{$placeholders["filename"]}";
 			if ($handle = @fopen($file, "w")) {
@@ -800,6 +805,14 @@ END;
 
 			} catch (Exception $e) {
 			}
+		}
+	}
+
+	private function addExportTimeoutSetting()
+	{
+		$settings = Settings::get("", "export_manager");
+		if (!array_key_exists($settings, "export_timeout")) {
+			Settings::set(array("export_timeout" => 300), "export_manager");
 		}
 	}
 }

@@ -10,123 +10,118 @@ use FormTools\Modules;
 
 class General
 {
-    /**
-     * Returns a list of all export icons, found in the /modules/export_manager/images/icons/ folder.
-     *
-     * return array an array of image filenames.
-     */
-    public static function getExportIcons()
-    {
-        $root_dir = Core::getRootDir();
-        $icon_folder = "$root_dir/modules/export_manager/images/icons/";
+	/**
+	 * Returns a list of all export icons, found in the /modules/export_manager/images/icons/ folder.
+	 *
+	 * return array an array of image filenames.
+	 */
+	public static function getExportIcons()
+	{
+		$root_dir = Core::getRootDir();
+		$icon_folder = "$root_dir/modules/export_manager/images/icons/";
 
-        // store all the icon filenames in an array
-        $filenames = array();
-        if ($handle = opendir($icon_folder)) {
-            while (false !== ($file = readdir($handle))) {
-                $extension = Files::getFilenameExtension($file, true);
-                if ($extension == "jpg" || $extension == "gif" || $extension == "bmp" || $extension == "png") {
-                    $filenames[] = $file;
-                }
-            }
-        }
+		// store all the icon filenames in an array
+		$filenames = array();
+		if ($handle = opendir($icon_folder)) {
+			while (false !== ($file = readdir($handle))) {
+				$extension = Files::getFilenameExtension($file, true);
+				if ($extension == "jpg" || $extension == "gif" || $extension == "bmp" || $extension == "png") {
+					$filenames[] = $file;
+				}
+			}
+		}
 
-        return $filenames;
-    }
-
-
-    /**
-     * Called on the Settings page. Updates the generated file folder information.
-     *
-     * @param array $info
-     * @return array [0] T/F [1] Error / notification message
-     */
-    public static function updateSettings($info, $L)
-    {
-        $settings = array(
-            "file_upload_dir" => $info["file_upload_dir"],
-            "file_upload_url" => $info["file_upload_url"]
-        );
-
-        //$settings["cache_multi_select_fields"] = (isset($info["cache_multi_select_fields"]) && !empty($info["cache_multi_select_fields"])) ?
-        //  $info["cache_multi_select_fields"] : "no";
-
-        Modules::setModuleSettings($settings);
-
-//  $_SESSION["ft"]["export_manager"]["cache_multi_select_fields"] = $settings["cache_multi_select_fields"];
-
-        return array(true, $L["notify_settings_updated"]);
-    }
+		return $filenames;
+	}
 
 
-    /**
-     * Used in generating the filenames; this builds most of the placeholder values (the date-oriented ones)
-     * to which the form and export-specific placeholders are added.
-     *
-     * @return array the placeholder array
-     */
-    public static function getExportFilenamePlaceholderHash()
-    {
-        $offset = CoreGeneral::getCurrentTimezoneOffset();
-        $date_str = CoreGeneral::getDate($offset, CoreGeneral::getCurrentDatetime(), "Y|y|F|M|m|n|d|D|j|g|h|H|s|U|a|G|i");
-        list($Y, $y, $F, $M, $m, $n, $d, $D, $j, $g, $h, $H, $s, $U, $a, $G, $i) = explode("|", $date_str);
+	/**
+	 * Called on the Settings page. Updates the generated file folder information.
+	 *
+	 * @param array $info
+	 * @return array [0] T/F [1] Error / notification message
+	 */
+	public static function updateSettings($info, $L)
+	{
+		$settings = array(
+			"file_upload_dir" => $info["file_upload_dir"],
+			"file_upload_url" => $info["file_upload_url"],
+			"export_timeout" => $info["export_timeout"]
+		);
 
-        $placeholders = array(
-            "datetime" => "$Y-$m-$d.$H-$i-$s",
-            "date" => "$Y-$m-$d",
-            "time" => "$H-$i-$s",
-            "Y" => $Y,
-            "y" => $y,
-            "F" => $F,
-            "M" => $M,
-            "m" => $m,
-            "G" => $G,
-            "i" => $i,
-            "n" => $n,
-            "d" => $d,
-            "D" => $D,
-            "j" => $j,
-            "g" => $g,
-            "h" => $h,
-            "H" => $H,
-            "s" => $s,
-            "U" => $U,
-            "a" => $a
-        );
-
-        return $placeholders;
-    }
+		Modules::setModuleSettings($settings);
+		return array(true, $L["notify_settings_updated"]);
+	}
 
 
-    public static function removeTables()
-    {
-        $db = Core::$db;
+	/**
+	 * Used in generating the filenames; this builds most of the placeholder values (the date-oriented ones)
+	 * to which the form and export-specific placeholders are added.
+	 *
+	 * @return array the placeholder array
+	 */
+	public static function getExportFilenamePlaceholderHash()
+	{
+		$offset = CoreGeneral::getCurrentTimezoneOffset();
+		$date_str = CoreGeneral::getDate($offset, CoreGeneral::getCurrentDatetime(), "Y|y|F|M|m|n|d|D|j|g|h|H|s|U|a|G|i");
+		list($Y, $y, $F, $M, $m, $n, $d, $D, $j, $g, $h, $H, $s, $U, $a, $G, $i) = explode("|", $date_str);
 
-        $db->query("DROP TABLE {PREFIX}module_export_groups");
-        $db->execute();
+		$placeholders = array(
+			"datetime" => "$Y-$m-$d.$H-$i-$s",
+			"date" => "$Y-$m-$d",
+			"time" => "$H-$i-$s",
+			"Y" => $Y,
+			"y" => $y,
+			"F" => $F,
+			"M" => $M,
+			"m" => $m,
+			"G" => $G,
+			"i" => $i,
+			"n" => $n,
+			"d" => $d,
+			"D" => $D,
+			"j" => $j,
+			"g" => $g,
+			"h" => $h,
+			"H" => $H,
+			"s" => $s,
+			"U" => $U,
+			"a" => $a
+		);
 
-        $db->query("DROP TABLE {PREFIX}module_export_group_clients");
-        $db->execute();
-
-        $db->query("DROP TABLE {PREFIX}module_export_types");
-        $db->execute();
-    }
+		return $placeholders;
+	}
 
 
-    public static function clearTableData()
-    {
-        $db = Core::$db;
+	public static function removeTables()
+	{
+		$db = Core::$db;
 
-        $db->query("TRUNCATE {PREFIX}module_export_group_clients");
-        $db->execute();
+		$db->query("DROP TABLE {PREFIX}module_export_groups");
+		$db->execute();
 
-        $db->query("TRUNCATE {PREFIX}module_export_groups");
-        $db->execute();
+		$db->query("DROP TABLE {PREFIX}module_export_group_clients");
+		$db->execute();
 
-        $db->query("TRUNCATE {PREFIX}module_export_types");
-        $db->execute();
+		$db->query("DROP TABLE {PREFIX}module_export_types");
+		$db->execute();
+	}
 
-        $db->query("DELETE FROM {PREFIX}settings WHERE module = 'export_manager'");
-        $db->execute();
-    }
+
+	public static function clearTableData()
+	{
+		$db = Core::$db;
+
+		$db->query("TRUNCATE {PREFIX}module_export_group_clients");
+		$db->execute();
+
+		$db->query("TRUNCATE {PREFIX}module_export_groups");
+		$db->execute();
+
+		$db->query("TRUNCATE {PREFIX}module_export_types");
+		$db->execute();
+
+		$db->query("DELETE FROM {PREFIX}settings WHERE module = 'export_manager'");
+		$db->execute();
+	}
 }

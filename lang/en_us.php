@@ -40,6 +40,7 @@ $L["phrase_export_group"] = "Export Group";
 $L["phrase_export_group_name"] = "Export Group Name";
 $L["phrase_smarty_template"] = "Smarty Template";
 $L["phrase_admin_export_only"] = "Only the administrator may use this export type";
+$L["phrase_export_timeout"] = "Export timeout";
 $L["phrase_export_type_name"] = "Export type name";
 $L["phrase_view_available_placeholders"] = "view available placeholders";
 $L["phrase_generate_file"] = "Generate a file on the server";
