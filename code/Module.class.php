@@ -26,8 +26,8 @@ class Module extends FormToolsModule
 	protected $author = "Ben Keen";
 	protected $authorEmail = "ben.keen@gmail.com";
 	protected $authorLink = "https://formtools.org";
-	protected $version = "3.2.0";
-	protected $date = "2019-11-09";
+	protected $version = "3.3.0";
+	protected $date = "2023-02-18";
 	protected $originLanguage = "en_us";
 	protected $jsFiles = array(
 		"{MODULEROOT}/scripts/admin.js",
@@ -428,7 +428,7 @@ END;
             {foreach from=\$display_fields item=field_info name=col_row}
                 {assign var=col_name value=\$field_info.col_name}
                 {assign var=value value=\$submission.\$col_name}
-                <{\$col_name}><![CDATA[{smart_display_field form_id=\$form_id 
+                <{\$col_name}><![CDATA[{smart_display_field form_id=\$form_id
                     view_id=\$view_id submission_id=\$submission.submission_id
                     field_info=\$field_info field_types=\$field_types
                     settings=\$settings value=\$value}]]></{\$col_name}>
@@ -480,7 +480,7 @@ END;
   {foreach from=\$display_fields item=field_info name=col_row}
     {assign var=col_name value=\$field_info.col_name}
     {assign var=value value=\$submission.\$col_name}
-    {smart_display_field form_id=\$form_id view_id=\$view_id 
+    {smart_display_field form_id=\$form_id view_id=\$view_id
       submission_id=\$submission.submission_id field_info=\$field_info
       field_types=\$field_types settings=\$settings value=\$value
       escape="csv"}
@@ -526,6 +526,7 @@ END;
 	private function createTables()
 	{
 		$db = Core::$db;
+		$L = $this->getLangStrings();
 
 		$queries = array();
 		$word_display = addcslashes($L["word_display"], "''");
@@ -811,7 +812,8 @@ END;
 	private function addExportTimeoutSetting()
 	{
 		$settings = Settings::get("", "export_manager");
-		if (!array_key_exists($settings, "export_timeout")) {
+
+		if (!array_key_exists("export_timeout", $settings)) {
 			Settings::set(array("export_timeout" => 300), "export_manager");
 		}
 	}
